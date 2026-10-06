@@ -1,3 +1,6 @@
 onlyBuiltDependencies:
   - esbuild
   - sharp
+
+# 只安装发布满 1 天的版本（分钟），本地与 CI 保持一致
+minimumReleaseAge: 1440
