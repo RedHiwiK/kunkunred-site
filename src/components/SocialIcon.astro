@@ -1,0 +1,35 @@
+---
+import { siGithub, siXiaohongshu, siTiktok, siBilibili, siX, siYoutube, siZhihu, siWechat } from 'simple-icons';
+import type { Platform } from '../data/profile';
+
+interface Props {
+  platform: Platform;
+  size?: number;
+}
+
+const { platform, size = 18 } = Astro.props;
+// 抖音与 TikTok 同一个标志
+const paths: Record<Exclude<Platform, 'email'>, string> = {
+  github: siGithub.path,
+  xiaohongshu: siXiaohongshu.path,
+  douyin: siTiktok.path,
+  bilibili: siBilibili.path,
+  x: siX.path,
+  youtube: siYoutube.path,
+  zhihu: siZhihu.path,
+  wechat: siWechat.path,
+};
+---
+
+{
+  platform === 'email' ? (
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
+      <rect x="3" y="5" width="18" height="14" rx="3" />
+      <path d="m4 7 8 6 8-6" stroke-linecap="round" />
+    </svg>
+  ) : (
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true">
+      <path fill="currentColor" d={paths[platform]} />
+    </svg>
+  )
+}

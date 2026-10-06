@@ -1,0 +1,38 @@
+---
+import { Image } from 'astro:assets';
+import type { App } from '../data/apps';
+
+interface Props {
+  app: App;
+  size: number;
+  /** 首页与详情页之间做共享元素过渡 */
+  morph?: boolean;
+  class?: string;
+}
+
+const { app, size, morph = false, class: cls } = Astro.props;
+---
+
+<Image
+  src={app.icon}
+  alt=""
+  width={size}
+  height={size}
+  densities={[1, 2, 3]}
+  class:list={['app-icon', cls]}
+  style={`--size:${size}px;${morph ? `view-transition-name:icon-${app.slug};` : ''}`}
+  loading={size > 64 ? 'eager' : 'lazy'}
+/>
+
+<style>
+  .app-icon {
+    width: var(--size);
+    height: var(--size);
+    flex: none;
+    border-radius: 22.5%;
+    corner-shape: superellipse(1.6);
+    box-shadow:
+      0 0 0 0.5px color-mix(in oklch, var(--ink) 12%, transparent),
+      var(--shadow);
+  }
+</style>

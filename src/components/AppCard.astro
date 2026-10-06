@@ -1,0 +1,193 @@
+---
+import AppIcon from './AppIcon.astro';
+import { appStoreUrl, type App } from '../data/apps';
+import { t, href, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  app: App;
+  index: number;
+}
+
+const { lang, app, index } = Astro.props;
+const s = t(lang);
+---
+
+<div class="reveal-box" data-reveal style={`--d:${index}`}>
+<article class="app-card" data-spot style={`--accent:var(--app-${app.slug})`}>
+  <a href={href(lang, `/apps/${app.slug}/`)} class="cover" aria-label={app.name[lang]}>
+    <span class="halo" aria-hidden="true"></span>
+    <AppIcon app={app} size={96} morph />
+  </a>
+  <div class="body">
+    <div class="meta mono">{app.platforms}</div>
+    <h3><a href={href(lang, `/apps/${app.slug}/`)}>{app.name[lang]}</a></h3>
+    <p class="tagline">{app.tagline[lang]}</p>
+    <ul class="points">
+      {app.highlights[lang].slice(0, 3).map((h) => <li>{h}</li>)}
+    </ul>
+  </div>
+  <div class="actions">
+    <a href={href(lang, `/apps/${app.slug}/`)} class="more">{s.learnMore} <span aria-hidden="true">→</span></a>
+    <a href={appStoreUrl(app)} class="store" target="_blank" rel="noopener">{s.appStore} ↗</a>
+  </div>
+</article>
+</div>
+
+<style>
+  .reveal-box {
+    display: flex;
+  }
+
+  .app-card {
+    flex: 1;
+    --mx: 50%;
+    --my: 0%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--rule);
+    border-radius: 28px;
+    background:
+      radial-gradient(22rem 16rem at var(--mx) var(--my), color-mix(in oklch, var(--accent) 14%, transparent), transparent 70%),
+      var(--paper-raised);
+    overflow: hidden;
+    transition:
+      border-color 0.3s,
+      box-shadow 0.5s var(--ease-out),
+      translate 0.6s var(--spring);
+  }
+
+  .app-card:hover {
+    border-color: color-mix(in oklch, var(--accent) 40%, var(--rule));
+    box-shadow: var(--shadow-card);
+    translate: 0 -4px;
+  }
+
+  .cover {
+    position: relative;
+    display: grid;
+    place-items: center;
+    height: 13rem;
+    background:
+      radial-gradient(60% 80% at 50% 100%, color-mix(in oklch, var(--accent) 34%, transparent), transparent 75%),
+      linear-gradient(180deg, color-mix(in oklch, var(--accent) 8%, var(--paper-raised)), color-mix(in oklch, var(--accent) 20%, var(--paper-raised)));
+    border-bottom: 1px solid color-mix(in oklch, var(--accent) 18%, var(--rule));
+    isolation: isolate;
+  }
+
+  /* 图标后面缓慢旋转的光晕 */
+  .halo {
+    position: absolute;
+    width: 11rem;
+    height: 11rem;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, transparent, color-mix(in oklch, var(--accent) 45%, transparent), transparent 40%);
+    filter: blur(18px);
+    opacity: 0.7;
+    z-index: -1;
+    animation: spin 14s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+
+  .cover :global(.app-icon) {
+    transition: transform 0.7s var(--spring);
+  }
+
+  .app-card:hover .cover :global(.app-icon) {
+    transform: translateY(-6px) rotate(-4deg) scale(1.06);
+  }
+
+  .body {
+    flex: 1;
+    padding: 1.4rem 1.5rem 0;
+  }
+
+  .meta {
+    color: var(--ink-faint);
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+  }
+
+  h3 {
+    margin-top: 0.35rem;
+    font-size: 1.6rem;
+    letter-spacing: -0.015em;
+  }
+
+  .tagline {
+    margin-top: 0.4rem;
+    color: var(--ink-soft);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  .points {
+    list-style: none;
+    margin: 1.1rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.45rem;
+    font-size: 0.875rem;
+    color: var(--ink-soft);
+  }
+
+  .points li {
+    display: flex;
+    gap: 0.6rem;
+    align-items: baseline;
+  }
+
+  .points li::before {
+    content: '';
+    flex: none;
+    width: 6px;
+    height: 6px;
+    border-radius: 2px;
+    background: var(--accent);
+    transform: translateY(-1px) rotate(45deg);
+  }
+
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.4rem;
+    padding: 1rem 1.5rem 1.2rem;
+    border-top: 1px dashed var(--rule);
+    font-size: 0.875rem;
+  }
+
+  .more {
+    font-weight: 500;
+  }
+
+  .more span {
+    display: inline-block;
+    transition: transform 0.4s var(--spring);
+  }
+
+  .more:hover span {
+    transform: translateX(4px);
+  }
+
+  .store {
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    transition: transform 0.4s var(--spring);
+  }
+
+  .store:active {
+    transform: scale(0.95);
+  }
+</style>

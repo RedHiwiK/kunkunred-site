@@ -1,0 +1,76 @@
+---
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { t, href, formatDate, readingMinutes, type Lang } from '../i18n';
+import { allPosts, postHref, type Post } from '../lib/content';
+
+interface Props {
+  /** 页面所在语言（英文页可能展示只有中文版的文章） */
+  lang: Lang;
+  post: Post;
+}
+
+const { lang, post } = Astro.props;
+const s = t(lang);
+const { Content } = await render(post);
+const other = (await allPosts()).find((p) => p.slug === post.slug && p.lang !== post.lang);
+const altPath = other ? postHref(other) : href(lang === 'zh' ? 'en' : 'zh', '/writing/');
+---
+
+<Base lang={lang} title={post.data.title} description={post.data.description} altPath={altPath}>
+  <article class="wrap" lang={post.lang === 'zh' ? 'zh-CN' : 'en'}>
+    <header class="head">
+      <a href={href(lang, '/writing/')} class="back mono rise" style="--i:0">← {s.backToWriting}</a>
+      <h1 class="rise" style="--i:1">{post.data.title}</h1>
+      <p class="meta mono rise" style="--i:2">
+        <time datetime={post.data.date.toISOString().slice(0, 10)}>{formatDate(post.data.date, lang)}</time>
+        <span>·</span>
+        <span>{s.readingTime(readingMinutes(post.body))}</span>
+        {
+          other && (
+            <>
+              <span>·</span>
+              <a class="link" href={postHref(other)}>{t(other.lang === 'zh' ? 'en' : 'zh').translation}</a>
+            </>
+          )
+        }
+      </p>
+    </header>
+    <div class="prose rise" style="--i:3">
+      <Content />
+    </div>
+  </article>
+</Base>
+
+<style>
+  .head {
+    padding-top: clamp(2.5rem, 8vw, 4.5rem);
+    padding-bottom: 2.25rem;
+    margin-bottom: 2.25rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 1.75rem;
+    color: var(--ink-faint);
+    transition: color 0.2s;
+  }
+
+  .back:hover {
+    color: var(--seal);
+  }
+
+  h1 {
+    font-size: clamp(1.9rem, 5.5vw, 2.6rem);
+    font-variation-settings: 'opsz' 72;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    color: var(--ink-faint);
+  }
+</style>

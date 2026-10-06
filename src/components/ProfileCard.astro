@@ -1,0 +1,282 @@
+---
+import { Image } from 'astro:assets';
+import SocialIcon from './SocialIcon.astro';
+import { profile } from '../data/profile';
+import { apps } from '../data/apps';
+import { t, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  /** 首页开场动画 */
+  intro?: boolean;
+}
+
+const { lang, intro = false } = Astro.props;
+const s = t(lang);
+---
+
+<div class:list={['card-stage', { intro }]}>
+  <div class="card" data-tilt>
+    <div class="ribbon" aria-hidden="true"></div>
+    <div class="top">
+      <Image src={profile.avatar} alt={profile.name} width={104} height={104} densities={[1, 2, 3]} class="avatar" loading="eager" />
+    </div>
+    <div class="who">
+      <div class="name">{profile.name}</div>
+      <div class="handle mono">@{profile.handle} · {s.card.role}</div>
+    </div>
+    <ul class="exp">
+      {
+        s.card.exp.map((line, i) => (
+          <li style={`--k:${i}`}>{line}</li>
+        ))
+      }
+    </ul>
+    <div class="foot">
+      <div class="icons" aria-hidden="true">
+        {apps.map((a) => <Image src={a.icon} alt="" width={28} height={28} densities={[2, 3]} class="mini" />)}
+      </div>
+      <ul class="social">
+        {
+          profile.links.map((l) => (
+            <li>
+              <a href={l.url} target="_blank" rel="noopener" aria-label={l.label} title={l.label}>
+                <SocialIcon platform={l.platform} size={16} />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="shine" aria-hidden="true"></div>
+  </div>
+</div>
+
+<script>
+  // 名片随指针轻微倾斜
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll<HTMLElement>('[data-tilt]').forEach((card) => {
+    if (!fine || still) return;
+    card.addEventListener('pointermove', (e) => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.setProperty('--rx', `${(-y * 8).toFixed(2)}deg`);
+      card.style.setProperty('--ry', `${(x * 10).toFixed(2)}deg`);
+      card.style.setProperty('--sx', `${((x + 0.5) * 100).toFixed(1)}%`);
+      card.style.setProperty('--sy', `${((y + 0.5) * 100).toFixed(1)}%`);
+    });
+    card.addEventListener('pointerleave', () => {
+      card.style.setProperty('--rx', '0deg');
+      card.style.setProperty('--ry', '0deg');
+    });
+  });
+
+</script>
+
+<style>
+  .card-stage {
+    perspective: 1200px;
+  }
+
+  .card {
+    --rx: 0deg;
+    --ry: 0deg;
+    --sx: 50%;
+    --sy: 0%;
+    position: relative;
+    overflow: hidden;
+    padding: 1.6rem 1.6rem 1.4rem;
+    border: 1px solid var(--rule);
+    border-radius: 26px;
+    background: var(--paper-raised);
+    box-shadow: var(--shadow-card);
+    transform: rotateX(var(--rx)) rotateY(var(--ry));
+    transform-style: preserve-3d;
+    transition: transform 0.6s var(--spring);
+  }
+
+  .ribbon {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 5px;
+    background: linear-gradient(90deg, var(--app-vitae), var(--app-cutepet), var(--app-moonlog));
+  }
+
+  .top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .avatar {
+    width: 104px;
+    height: 104px;
+    border-radius: 30px;
+    box-shadow:
+      0 0 0 1px var(--rule),
+      var(--shadow);
+  }
+
+  .who {
+    margin-top: 1.35rem;
+  }
+
+  .name {
+    font-family: var(--font-display);
+    font-size: 1.85rem;
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .handle {
+    margin-top: 0.35rem;
+    color: var(--ink-faint);
+    font-size: 0.75rem;
+  }
+
+  .exp {
+    display: grid;
+    gap: 0.55rem;
+    margin: 1.4rem 0 0;
+    padding: 1.1rem 0 0;
+    list-style: none;
+    border-top: 1px dashed var(--rule-strong);
+  }
+
+  .exp li {
+    position: relative;
+    padding-left: 1.1rem;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    line-height: 1.4;
+  }
+
+  .exp li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--rule-strong);
+  }
+
+  .exp li:first-child::before {
+    background: transparent;
+    border: 1.5px solid var(--ink-faint);
+    width: 7px;
+    height: 7px;
+    top: 0.5em;
+    left: -0.5px;
+  }
+
+  .exp li:nth-child(2)::before {
+    background: var(--seal);
+  }
+
+  .foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  .icons {
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  .social {
+    display: flex;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .social a {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    border: 1px solid var(--rule);
+    border-radius: 50%;
+    color: var(--ink-soft);
+    transition:
+      color 0.2s,
+      border-color 0.2s,
+      transform 0.45s var(--spring);
+  }
+
+  .social a:hover {
+    color: var(--seal);
+    border-color: var(--seal);
+    transform: translateY(-2px);
+  }
+
+  .mini {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    box-shadow: 0 0 0 0.5px var(--rule-strong);
+  }
+
+  .shine {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(28rem 18rem at var(--sx) var(--sy), color-mix(in oklch, var(--paper) 55%, transparent), transparent 60%);
+    mix-blend-mode: soft-light;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .card:hover .shine {
+    opacity: 1;
+  }
+
+  /* ---------- 开场 ---------- */
+  .card-stage.intro {
+    animation: card-in 1.4s var(--spring) 0.55s both;
+  }
+
+  .intro .avatar {
+    animation: pop 0.9s var(--spring) 0.95s both;
+  }
+
+  .intro .exp li {
+    animation: slide 0.8s var(--ease-out) both;
+    animation-delay: calc(1.15s + var(--k) * 0.12s);
+  }
+
+  @keyframes slide {
+    from {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+  }
+
+  @keyframes card-in {
+    from {
+      opacity: 0;
+      transform: translate3d(70px, 50px, 0) rotate(9deg) scale(0.9);
+    }
+    40% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes pop {
+    from {
+      opacity: 0;
+      transform: scale(0.6);
+    }
+  }
+</style>

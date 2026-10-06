@@ -1,0 +1,104 @@
+---
+import SocialIcon from './SocialIcon.astro';
+import { t, href, type Lang } from '../i18n';
+import { profile } from '../data/profile';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const s = t(lang);
+const year = new Date().getFullYear();
+const rss = href(lang, '/rss.xml');
+---
+
+<footer class="site-footer">
+  <div class="wrap-wide">
+    <div class="cta" data-reveal>
+      <h2>{s.footerTitle}</h2>
+      <p>{s.footerBody}</p>
+      <div class="links">
+        {profile.links.map((l) => <a class="chip" href={l.url} target="_blank" rel="noopener"><SocialIcon platform={l.platform} size={16} />{l.label}</a>)}
+        <a class="chip" href={rss}>{s.rss}</a>
+      </div>
+    </div>
+    <div class="bottom">
+      <p class="mono copy">© {year} {profile.name}</p>
+      <p>{s.colophon}</p>
+    </div>
+  </div>
+</footer>
+
+
+<style>
+  .site-footer {
+    margin-top: clamp(6rem, 14vw, 10rem);
+    padding-bottom: 2.5rem;
+    color: var(--ink-faint);
+    font-size: 0.875rem;
+  }
+
+  .cta {
+    padding: clamp(2.5rem, 6vw, 4rem) 0 clamp(2.5rem, 5vw, 3.5rem);
+    border-top: 1px solid var(--rule);
+  }
+
+  h2 {
+    color: var(--ink);
+    font-size: clamp(2.6rem, 8vw, 5.5rem);
+    letter-spacing: -0.035em;
+    font-variation-settings: 'opsz' 72;
+  }
+
+  .cta p {
+    max-width: 30rem;
+    margin-top: 1rem;
+    color: var(--ink-soft);
+    font-size: 1.0625rem;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1.75rem;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2.6rem;
+    padding: 0 1.15rem;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    color: var(--ink);
+    font-weight: 500;
+    transition:
+      transform 0.45s var(--spring),
+      border-color 0.2s,
+      color 0.2s;
+  }
+
+  .chip:hover {
+    border-color: var(--seal);
+    color: var(--seal);
+    transform: translateY(-2px);
+  }
+
+  .bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .copy {
+    font-size: 0.75rem;
+  }
+
+</style>

@@ -1,0 +1,253 @@
+---
+import { t, href, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  alternate: string;
+}
+
+const { lang, alternate } = Astro.props;
+const s = t(lang);
+const path = Astro.url.pathname;
+const items = [
+  { key: 'apps', path: '/#apps', match: '/apps/' },
+  { key: 'writing', path: '/writing/', match: '/writing/' },
+  { key: 'about', path: '/about/', match: '/about/' },
+] as const;
+const isActive = (p: string) => path.startsWith(href(lang, p));
+---
+
+<header class="site-header">
+  <div class="wrap-wide bar">
+    <a href={href(lang, '/')} class="mark" aria-label={s.siteTitle}>
+      <span class="logo" aria-hidden="true">R</span>
+      <span class="name">KunKunRed</span>
+    </a>
+    <nav aria-label="Primary">
+      {
+        items.map((it) => (
+          <a href={href(lang, it.path)} class:list={['nav-link', { active: isActive(it.match) }]} aria-current={isActive(it.match) ? 'page' : undefined}>
+            {s.nav[it.key]}
+          </a>
+        ))
+      }
+      <span class="divider" aria-hidden="true"></span>
+      <a href={alternate} class="pill" hreflang={lang === 'zh' ? 'en' : 'zh-CN'} aria-label={s.langSwitchLabel}>{s.langSwitch}</a>
+      <button class="pill icon" type="button" id="theme-toggle" aria-label={s.themeLabel}>
+        <svg class="sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M19.5 14.6A8 8 0 0 1 9.4 4.5a8 8 0 1 0 10.1 10.1Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('theme-toggle');
+  btn?.addEventListener('click', () => {
+    const root = document.documentElement;
+    const current = root.dataset.theme ?? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const next = current === 'dark' ? 'light' : 'dark';
+    const apply = () => {
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem('theme', next);
+      } catch {}
+    };
+    if (document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.startViewTransition(apply);
+    } else {
+      apply();
+    }
+  });
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: color-mix(in oklch, var(--paper) 82%, transparent);
+    backdrop-filter: saturate(1.4) blur(14px);
+    -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    border-bottom: 1px solid transparent;
+    animation: header-rule linear both;
+    animation-timeline: scroll();
+    animation-range: 0 64px;
+    view-transition-name: site-header;
+  }
+
+  /* 首页开场：导航从上方滑入 */
+  :global(.home) .bar {
+    animation: header-in 0.9s var(--ease-out) 0.1s both;
+  }
+
+  @keyframes header-in {
+    from {
+      opacity: 0;
+      transform: translateY(-60%);
+    }
+  }
+
+  @keyframes header-rule {
+    to {
+      border-bottom-color: var(--rule);
+    }
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    height: 3.75rem;
+  }
+
+  .mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  /* 标志：斜体衬线 R，右上角一颗红点（呼应头像里的红点） */
+  .logo {
+    position: relative;
+    display: inline-block;
+    width: 1.5rem;
+    font-family: var(--font-display);
+    font-size: 1.9rem;
+    font-style: italic;
+    font-weight: 600;
+    line-height: 1;
+    text-align: center;
+    font-variation-settings: 'opsz' 72;
+    transform: translateY(-1px);
+  }
+
+  .logo::after {
+    content: '';
+    position: absolute;
+    right: -0.16em;
+    top: 0.06em;
+    width: 0.2em;
+    height: 0.2em;
+    border-radius: 50%;
+    background: var(--seal);
+    transition: transform 0.6s var(--spring);
+  }
+
+  .mark:hover .logo::after {
+    transform: translate(2px, -3px) scale(1.25);
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
+    font-size: 0.875rem;
+  }
+
+  .nav-link {
+    position: relative;
+    padding: 0.35rem 0.6rem;
+    color: var(--ink-soft);
+    border-radius: 999px;
+    transition: color 0.2s, background-color 0.2s;
+  }
+
+  .nav-link:hover {
+    color: var(--ink);
+    background: var(--paper-sunken);
+  }
+
+  .nav-link.active {
+    color: var(--ink);
+  }
+
+  .nav-link.active::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -0.1rem;
+    width: 4px;
+    height: 4px;
+    margin-left: -2px;
+    border-radius: 50%;
+    background: var(--seal);
+  }
+
+  .divider {
+    width: 1px;
+    height: 1rem;
+    margin-inline: 0.45rem;
+    background: var(--rule-strong);
+  }
+
+  .pill {
+    display: inline-grid;
+    place-items: center;
+    min-width: 2rem;
+    height: 2rem;
+    padding: 0 0.5rem;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink-soft);
+    font: inherit;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, transform 0.4s var(--spring);
+  }
+
+  .pill + .pill {
+    margin-left: 0.35rem;
+  }
+
+  .pill:hover {
+    color: var(--ink);
+    border-color: var(--rule-strong);
+  }
+
+  .pill:active {
+    transform: scale(0.92);
+  }
+
+  .pill.icon {
+    padding: 0;
+  }
+
+  .moon {
+    display: none;
+  }
+
+  :global(:root[data-theme='dark']) .sun {
+    display: none;
+  }
+
+  :global(:root[data-theme='dark']) .moon {
+    display: block;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme='light'])) .sun {
+      display: none;
+    }
+    :global(:root:not([data-theme='light'])) .moon {
+      display: block;
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .name {
+      display: none;
+    }
+    .nav-link {
+      padding-inline: 0.45rem;
+    }
+    .divider {
+      margin-inline: 0.2rem;
+    }
+  }
+</style>

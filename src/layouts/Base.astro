@@ -1,0 +1,69 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { t, href, altHref, withBase, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  title?: string;
+  description?: string;
+  /** 另一种语言下的对应页面，没有对应页面时传列表页 */
+  altPath?: string;
+  bodyClass?: string;
+}
+
+const { lang, title, description, altPath, bodyClass } = Astro.props;
+const s = t(lang);
+const pageTitle = title ? `${title} · ${s.siteTitle}` : `${s.siteTitle} · ${s.siteDescription}`;
+const desc = description ?? s.siteDescription;
+const alternate = altPath ?? altHref(lang, Astro.url.pathname);
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang={lang === 'zh' ? 'zh-CN' : 'en'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={desc} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang={lang === 'zh' ? 'en' : 'zh-CN'} href={new URL(alternate, Astro.site)} />
+    <link rel="alternate" type="application/rss+xml" title={s.siteTitle} href={href(lang, '/rss.xml')} />
+    <link rel="icon" href={withBase('/favicon.png')} type="image/png" />
+    <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} />
+    <meta property="og:title" content={title ?? s.siteTitle} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      try {
+        const t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
+  </head>
+  <body class={bodyClass}>
+    <Header lang={lang} alternate={alternate} />
+    <main>
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <script>
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              e.target.classList.add('in');
+              io.unobserve(e.target);
+            }
+          }
+        },
+        { rootMargin: '0px 0px -8% 0px' },
+      );
+      document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+    </script>
+  </body>
+</html>

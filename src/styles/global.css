@@ -1,0 +1,398 @@
+@import '@fontsource-variable/newsreader/opsz.css';
+@import '@fontsource-variable/newsreader/opsz-italic.css';
+
+/* ---------- Design tokens ---------- */
+:root {
+  color-scheme: light;
+
+  /* 纸面与墨色 */
+  --paper: oklch(98.4% 0.006 85);
+  --paper-raised: oklch(99.6% 0.003 85);
+  --paper-sunken: oklch(95.6% 0.008 85);
+  --ink: oklch(23% 0.012 60);
+  --ink-soft: oklch(42% 0.012 60);
+  --ink-faint: oklch(58% 0.01 60);
+  --rule: oklch(89% 0.01 80);
+  --rule-strong: oklch(80% 0.012 80);
+
+  /* 品牌色：印章红 */
+  --seal: oklch(56% 0.19 30);
+  --seal-soft: oklch(56% 0.19 30 / 0.1);
+
+  /* 各 App 的主题色 */
+  --app-vitae: oklch(62% 0.17 252);
+  --app-cutepet: oklch(70% 0.11 15);
+  --app-moonlog: oklch(74% 0.15 70);
+
+  --selection: oklch(56% 0.19 30 / 0.18);
+  --shadow: 0 1px 2px oklch(30% 0.02 60 / 0.06), 0 8px 24px -12px oklch(30% 0.02 60 / 0.18);
+  --shadow-card: 0 30px 60px -30px oklch(30% 0.03 60 / 0.35), 0 12px 24px -16px oklch(30% 0.03 60 / 0.2);
+
+  /* 字体 */
+  --font-display: 'Newsreader Variable', 'Songti SC', 'Noto Serif CJK SC', 'Source Han Serif SC', serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, Consolas, monospace;
+
+  /* 尺寸 */
+  --measure: 40rem;
+  --wide: 74rem;
+  --gutter: clamp(1rem, 5vw, 2rem);
+  --radius: 14px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --spring: linear(0, 0.009, 0.035 2.1%, 0.141 4.4%, 0.723 12.9%, 0.938 16.7%, 1.017 19.4%, 1.067, 1.089 26.1%, 1.084 30.4%, 1.034 39.4%, 1.006 46.2%, 0.996 53.6%, 1.001 72.4%, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --paper: oklch(17.5% 0.008 70);
+    --paper-raised: oklch(21% 0.009 70);
+    --paper-sunken: oklch(15% 0.007 70);
+    --ink: oklch(93% 0.01 85);
+    --ink-soft: oklch(76% 0.012 80);
+    --ink-faint: oklch(60% 0.012 75);
+    --rule: oklch(28% 0.01 70);
+    --rule-strong: oklch(36% 0.012 70);
+    --seal: oklch(68% 0.17 32);
+    --seal-soft: oklch(68% 0.17 32 / 0.14);
+    --app-vitae: oklch(72% 0.14 250);
+    --app-cutepet: oklch(78% 0.1 15);
+    --app-moonlog: oklch(80% 0.14 75);
+    --selection: oklch(68% 0.17 32 / 0.3);
+    --shadow: 0 1px 2px oklch(0% 0 0 / 0.3), 0 8px 24px -12px oklch(0% 0 0 / 0.6);
+    --shadow-card: 0 30px 60px -30px oklch(0% 0 0 / 0.7), 0 12px 24px -16px oklch(0% 0 0 / 0.5);
+  }
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --paper: oklch(17.5% 0.008 70);
+  --paper-raised: oklch(21% 0.009 70);
+  --paper-sunken: oklch(15% 0.007 70);
+  --ink: oklch(93% 0.01 85);
+  --ink-soft: oklch(76% 0.012 80);
+  --ink-faint: oklch(60% 0.012 75);
+  --rule: oklch(28% 0.01 70);
+  --rule-strong: oklch(36% 0.012 70);
+  --seal: oklch(68% 0.17 32);
+  --seal-soft: oklch(68% 0.17 32 / 0.14);
+  --app-vitae: oklch(72% 0.14 250);
+  --app-cutepet: oklch(78% 0.1 15);
+  --app-moonlog: oklch(80% 0.14 75);
+  --selection: oklch(68% 0.17 32 / 0.3);
+  --shadow: 0 1px 2px oklch(0% 0 0 / 0.3), 0 8px 24px -12px oklch(0% 0 0 / 0.6);
+  --shadow-card: 0 30px 60px -30px oklch(0% 0 0 / 0.7), 0 12px 24px -16px oklch(0% 0 0 / 0.5);
+}
+
+/* ---------- Base ---------- */
+@view-transition {
+  navigation: auto;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scrollbar-gutter: stable;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  text-autospace: normal;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--selection);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+:focus-visible {
+  outline: 2px solid var(--seal);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.wrap {
+  width: 100%;
+  max-width: calc(var(--measure) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.wrap-wide {
+  width: 100%;
+  max-width: calc(var(--wide) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* 区块标题 */
+.section {
+  margin-top: clamp(5rem, 12vw, 9rem);
+}
+
+.section-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 1rem 2rem;
+  margin-bottom: 2.25rem;
+}
+
+.section-head .kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.9rem;
+  color: var(--seal);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.section-head .kicker::before {
+  content: '';
+  width: 1.5rem;
+  height: 1px;
+  background: currentColor;
+}
+
+.section-head h2 {
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-variation-settings: 'opsz' 72;
+  letter-spacing: -0.02em;
+}
+
+.section-head p {
+  max-width: 34rem;
+  margin-top: 0.75rem;
+  color: var(--ink-soft);
+}
+
+.section-head .more {
+  color: var(--ink-soft);
+  font-size: 0.875rem;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+.section-head .more:hover {
+  color: var(--seal);
+}
+
+/* 滚动进入视口时浮现：有 JS 时才隐藏，由 Base 里的 IntersectionObserver 加 .in */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px) scale(0.985);
+  filter: blur(6px);
+  transition:
+    opacity 0.9s var(--ease-out),
+    transform 1.1s var(--spring),
+    filter 0.9s var(--ease-out);
+  transition-delay: calc(var(--d, 0) * 90ms);
+}
+
+.js [data-reveal].in {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.25rem;
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink-faint);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.eyebrow a {
+  text-transform: none;
+  letter-spacing: 0;
+  transition: color 0.2s;
+}
+
+.eyebrow a:hover {
+  color: var(--seal);
+}
+
+.link {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 100% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  padding-bottom: 1px;
+  transition: color 0.2s, background-size 0.3s var(--ease-out);
+}
+
+.link:hover {
+  color: var(--seal);
+}
+
+/* 进入页面时内容依次浮现 */
+.rise {
+  animation: rise 0.7s var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  @view-transition {
+    navigation: none;
+  }
+}
+
+/* ---------- 文章正文 ---------- */
+.prose {
+  font-size: 1.0625rem;
+  line-height: 1.85;
+  color: var(--ink);
+}
+
+.prose > * + * {
+  margin-top: 1.25em;
+}
+
+.prose h2 {
+  font-size: 1.5rem;
+  margin-top: 2.2em;
+}
+
+.prose h3 {
+  font-size: 1.2rem;
+  margin-top: 1.8em;
+}
+
+.prose a {
+  color: var(--seal);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.prose blockquote {
+  margin-inline: 0;
+  padding-left: 1.1em;
+  border-left: 2px solid var(--seal);
+  color: var(--ink-soft);
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.3em;
+}
+
+.prose li + li {
+  margin-top: 0.35em;
+}
+
+.prose li::marker {
+  color: var(--ink-faint);
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--paper-sunken);
+  border: 1px solid var(--rule);
+  padding: 0.1em 0.35em;
+  border-radius: 5px;
+}
+
+.prose pre {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  padding: 1rem 1.15rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--rule);
+  overflow-x: auto;
+}
+
+.prose pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+}
+
+.prose hr {
+  border: 0;
+  height: 1px;
+  background: var(--rule);
+  margin-block: 2.5em;
+}
+
+.prose img {
+  border-radius: var(--radius);
+  border: 1px solid var(--rule);
+}

@@ -1,0 +1,14 @@
+---
+import PostView from '../../../views/Post.astro';
+import { allPosts, type Post } from '../../../lib/content';
+
+// 只给有英文版的文章生成英文页；只有中文的文章在英文列表里直接链到中文页
+export async function getStaticPaths() {
+  const posts = await allPosts();
+  return posts.filter((p) => p.lang === 'en').map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props as { post: Post };
+---
+
+<PostView lang="en" post={post} />
