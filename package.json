@@ -17,5 +17,6 @@
   },
   "devDependencies": {
     "simple-icons": "^16.34.0"
-  }
+  },
+  "packageManager": "pnpm@10.18.3"
 }
