@@ -24,8 +24,8 @@ KunKunRed 的个人主站。Astro 静态站，中英双语（中文无前缀，�
 - UI 中不用 emoji。
 
 ## 部署
-- 仓库 `RedHiwiK/kunkunred-site`，push 到 `main` 后由 GitHub Actions 部署到 GitHub Pages：https://redhiwik.github.io/kunkunred-site/
-- `astro.config.mjs` 里配置了 `base: '/kunkunred-site'`。站内链接一律用 `src/i18n.ts` 的 `href()` / `withBase()` 生成，不要手写 `/xxx` 绝对路径；Markdown 里用相对路径。以后绑定自定义域名时删掉 `base` 即可。
+- 仓库 `RedHiwiK/kunkunred-site`，push 到 `main` 后由 GitHub Actions 部署到 GitHub Pages，自定义域名 https://kunkunred.hiwik.cn/（阿里云解析 `kunkunred` CNAME → `redhiwik.github.io`，`public/CNAME` 记录域名）
+- 站内链接一律用 `src/i18n.ts` 的 `href()` / `withBase()` 生成，Markdown 里用相对路径，这样以后换回子路径部署（`base`）也不用改代码。
 
 ## 验证
 - 改完运行 `pnpm build`，通过后再报告完成。

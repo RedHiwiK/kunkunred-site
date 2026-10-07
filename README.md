@@ -1,6 +1,6 @@
 # kunkunred-site
 
-KunKunRed 的个人站：作品、随笔、关于我，中英双语。Astro 静态站，push 到 main 后由 GitHub Actions 部署到 GitHub Pages：https://redhiwik.github.io/kunkunred-site/
+KunKunRed 的个人站：作品、随笔、关于我，中英双语。Astro 静态站，push 到 main 后由 GitHub Actions 部署到 GitHub Pages：https://kunkunred.hiwik.cn/
 
 ## 日常更新
 
