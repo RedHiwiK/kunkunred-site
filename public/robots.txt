@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kunkunred.hiwik.cn/sitemap-index.xml
