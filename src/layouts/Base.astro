@@ -34,7 +34,7 @@ const jsonLd = isHome
           '@type': 'Person',
           '@id': new URL('/#person', Astro.site).href,
           name: profile.name,
-          alternateName: profile.handle,
+          alternateName: profile.aliases,
           url: new URL('/', Astro.site).href,
           image: ogImage.href,
           jobTitle: s.card.role,

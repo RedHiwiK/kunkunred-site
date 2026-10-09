@@ -12,12 +12,14 @@ export interface SocialLink {
 export const profile = {
   name: 'KunKunRed',
   handle: 'RedHiwiK',
+  // 其他平台上用的名字，写进结构化数据供搜索引擎关联
+  aliases: ['RedHiwiK', '困困红'],
   avatar,
   // 社交账号：名片卡和页脚都会显示，取消注释并填上主页地址即可
   // platform 可选：github | xiaohongshu | douyin | bilibili | x | youtube | zhihu | wechat | email
   links: [
     { platform: 'github', label: 'GitHub', url: 'https://github.com/RedHiwiK' },
-    // { platform: 'xiaohongshu', label: '小红书', url: 'https://www.xiaohongshu.com/user/profile/你的ID' },
+    { platform: 'xiaohongshu', label: '小红书', url: 'https://www.xiaohongshu.com/user/profile/5bc825cab321db000191823b' },
     // { platform: 'douyin', label: '抖音', url: 'https://www.douyin.com/user/你的ID' },
     // { platform: 'bilibili', label: 'B站', url: 'https://space.bilibili.com/你的UID' },
     // { platform: 'x', label: 'X', url: 'https://x.com/你的ID' },
