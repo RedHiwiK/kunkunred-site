@@ -19,10 +19,10 @@ export const profile = {
   // platform 可选：github | xiaohongshu | douyin | bilibili | x | youtube | zhihu | wechat | email
   links: [
     { platform: 'github', label: 'GitHub', url: 'https://github.com/RedHiwiK' },
+    { platform: 'x', label: 'X', url: 'https://x.com/RedHiwiK' },
     { platform: 'xiaohongshu', label: '小红书', url: 'https://www.xiaohongshu.com/user/profile/5bc825cab321db000191823b' },
     // { platform: 'douyin', label: '抖音', url: 'https://www.douyin.com/user/你的ID' },
     // { platform: 'bilibili', label: 'B站', url: 'https://space.bilibili.com/你的UID' },
-    // { platform: 'x', label: 'X', url: 'https://x.com/你的ID' },
     // { platform: 'email', label: 'Email', url: 'mailto:you@example.com' },
   ] as SocialLink[],
 };
