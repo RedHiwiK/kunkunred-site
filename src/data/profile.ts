@@ -29,6 +29,15 @@ export const profile = {
 
 export const openSource = [
   {
+    repo: 'RedHiwiK/HiwiKInsight',
+    name: 'HiwiKInsight',
+    desc: {
+      zh: '自托管的 App 数据分析与 App Store 收入看板：一个 Go 程序加 SQLite，配套 iOS SDK、邮件日报与告警，还能让 AI 通过命令行或 MCP 直接查数据。',
+      en: 'Self-hosted product analytics and App Store revenue for indie iOS apps: one Go binary with SQLite, a Swift SDK, email reports and alerts, and a read-only query layer AI agents can use through a CLI or MCP.',
+    },
+    fallbackStars: 0,
+  },
+  {
     repo: 'RedHiwiK/apple-app-store-release',
     name: 'apple-app-store-release',
     desc: {
