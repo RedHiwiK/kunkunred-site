@@ -14,7 +14,7 @@ importers:
       '@astrojs/sitemap':
         specifier: ^3.7.4
         version: 3.7.4
-      '@fontsource-variable/newsreader':
+      '@fontsource-variable/bricolage-grotesque':
         specifier: ^5.3.0
         version: 5.3.0
       astro:
@@ -373,8 +373,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@fontsource-variable/newsreader@5.3.0':
-    resolution: {integrity: sha512-rrzYi43qMpbzwuFtf9OkWH8sxAPVPcQQQEwXpPtwaKYeJ8yVg5aLs5kawmo1f2Q1t1M38TLmEKCkGVDsYwgdFw==}
+  '@fontsource-variable/bricolage-grotesque@5.3.0':
+    resolution: {integrity: sha512-TLi9Q4hJjS2UvoTMRSS2nHu6c4R56lAw60NR9QYtVRCHn0XtsFpiEhNffZ8Glsoxu6wEEwLKBP8lb94J52PNBA==}
 
   '@img/colour@1.1.0':
     resolution: {integrity: sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==}
@@ -1725,7 +1725,7 @@ snapshots:
   '@esbuild/win32-x64@0.28.2':
     optional: true
 
-  '@fontsource-variable/newsreader@5.3.0': {}
+  '@fontsource-variable/bricolage-grotesque@5.3.0': {}
 
   '@img/colour@1.1.0': {}
 

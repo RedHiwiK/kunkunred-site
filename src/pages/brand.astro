@@ -1,0 +1,687 @@
+---
+import '../styles/global.css';
+import '@fontsource-variable/bricolage-grotesque/wdth.css';
+import badge from '../assets/brand/panda-badge.svg';
+import avatar from '../assets/avatar.png';
+import sleepy from '../assets/brand/panda-sleepy.svg';
+import mini from '../assets/brand/panda-mini.svg';
+import wordmark from '../assets/brand/wordmark.svg';
+import wordmarkWhite from '../assets/brand/wordmark-white.svg';
+import { withBase } from '../i18n';
+
+const colors = [
+  { name: '困困红', en: 'KunKun Red', hex: '#FC3131', token: '--kk-red', use: '开口弧线、耳机饰边、卫衣内衬与签名划线' },
+  { name: '熊猫黑', en: 'Panda Black', hex: '#161A1B', token: '--kk-black', use: '文字、深色背景、耳机与眼圈' },
+  { name: '绒毛白', en: 'Fur White', hex: '#FAF8F5', token: '--kk-white', use: '浅色背景、熊猫脸、深底上的文字' },
+  { name: '烟灰', en: 'Smoke', hex: '#8A8F8E', token: '--kk-gray', use: '次要文字、分隔线，只做辅助' },
+];
+
+const voice = [
+  { yes: '这个功能是因为我自己记账总忘，才做的。', no: '打造极致的智能记账体验。' },
+  { yes: '上架踩了三个坑，都写进这个 skill 里了。', no: '赋能开发者高效发布。' },
+  { yes: '先试了一周，好用，留下了。', no: '拥抱 AI 原生工作流。' },
+];
+---
+
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>品牌 · KunKunRed</title>
+    <link rel="icon" type="image/svg+xml" href={mini.src} />
+  </head>
+  <body class="brand">
+    <header class="hero">
+      <div class="in">
+        <a class="back mono" href={withBase('/')}>kunkunred.hiwik.cn</a>
+        <div class="hero-identity">
+          <img class="hero-badge" src={avatar.src} alt="KunKunRed 熊猫头像" width="512" height="512" />
+          <h1 class="wordmark"><img src={wordmarkWhite.src} alt="KunKunRed" width="2150" height="515" /></h1>
+        </div>
+        <p class="hero-sub">品牌规范 · 困困红</p>
+      </div>
+    </header>
+
+    <main>
+      <section class="block">
+        <div class="num mono">01</div>
+        <div class="body">
+          <h2>熊猫形象与个人签名</h2>
+          <p class="lead">
+            主视觉直接使用原熊猫头像，保留它的脸型、毛发质感、黑红耳机与卫衣。手写签名与原头像搭配，红色划线呼应头像里的红色细节。
+          </p>
+          <div class="zoom">
+            <span class="z z1" aria-hidden="true"></span>
+            <span class="z z2" aria-hidden="true"></span>
+            <img class="z3" src={mini.src} alt="" width="56" height="56" />
+            <img class="z4" src={avatar.src} alt="" width="120" height="120" />
+          </div>
+          <p class="note">头像与签名构成主组合，原有扁平熊猫只用于小尺寸或辅助表情，不替代原头像。</p>
+        </div>
+      </section>
+
+      <section class="block">
+        <div class="num mono">02</div>
+        <div class="body">
+          <h2>标志</h2>
+          <div class="marks">
+            <figure>
+              <div class="tile light"><img class="avatar-image" src={avatar.src} alt="原熊猫头像" width="512" height="512" /></div>
+              <figcaption><b>原头像</b>个人名片、社交头像与品牌主视觉，保持原有形象。</figcaption>
+            </figure>
+            <figure>
+              <div class="tile light signature-tile"><img src={wordmark.src} alt="KunKunRed 黑字签名" width="2150" height="515" /></div>
+              <figcaption><b>浅底签名</b>黑字与红色划线，使用独立矢量轮廓。</figcaption>
+            </figure>
+            <figure>
+              <div class="tile dark signature-tile"><img src={wordmarkWhite.src} alt="KunKunRed 白字签名" width="2150" height="515" /></div>
+              <figcaption><b>深底签名</b>白字与红色划线，与浅底版使用相同轮廓。</figcaption>
+            </figure>
+          </div>
+          <div class="sizes">
+            <img src={mini.src} alt="" width="16" height="16" />
+            <img src={mini.src} alt="" width="32" height="32" />
+            <img src={badge.src} alt="" width="48" height="48" />
+            <img src={badge.src} alt="" width="72" height="72" />
+            <span class="mono">16 · 32 → 小尺寸版　48 · 72 → 辅助图标</span>
+          </div>
+          <h3>组合</h3>
+          <div class="lockups">
+            <div class="lockup">
+              <img class="avatar-image" src={avatar.src} alt="" width="64" height="64" />
+              <img class="wm" src={wordmark.src} alt="KunKunRed" width="2150" height="515" />
+            </div>
+            <div class="lockup on-dark">
+              <img class="avatar-image" src={avatar.src} alt="" width="64" height="64" />
+              <img class="wm" src={wordmarkWhite.src} alt="KunKunRed" width="2150" height="515" />
+            </div>
+            <div class="lockup">
+              <img class="wm" src={wordmark.src} alt="KunKunRed" width="2150" height="515" />
+            </div>
+          </div>
+          <p class="note">字标采用手写签名：两个大写 K 的挥笔、连贯的宽窄变化，以及 Red 下方的红色划线形成辨识度。浅色底用黑字，深色底用白字；轮廓与红色划线保持一致。字标不放在红色底上，否则划线会失去对比。</p>
+          <h3>规则</h3>
+          <ul class="rules">
+            <li>直接使用原头像，保持脸型、质感与构图，不重画或拉伸。</li>
+            <li>四周至少留出标志宽度八分之一的空白，签名划线也计入安全范围。</li>
+            <li>头像在深色底上使用浅色承托区，签名在浅底用黑字、深底用白字。</li>
+            <li>原有扁平标志与困困表情用于小尺寸或辅助场景，不替代品牌主视觉。</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="block">
+        <div class="num mono">03</div>
+        <div class="body">
+          <h2>名字</h2>
+          <dl class="names">
+            <div><dt>KunKunRed</dt><dd>唯一的品牌名。网站、App 署名、开源项目、所有社交平台的显示名。</dd></div>
+            <div><dt>困困红</dt><dd>中文昵称，只在中文语境里跟在品牌名旁边出现：「困困红 KunKunRed」。</dd></div>
+            <div><dt>RedHiwiK</dt><dd>账号 handle，只出现在 URL 和 @ 里，不作为名字对外介绍。</dd></div>
+          </dl>
+          <p class="note">写法固定为 KunKunRed：两个大写 K、一个大写 R，不写成 Kunkunred、KUNKUNRED 或 Kun Kun Red。</p>
+        </div>
+      </section>
+
+      <section class="block">
+        <div class="num mono">04</div>
+        <div class="body">
+          <h2>颜色</h2>
+          <p class="lead">全部取自原头像：红色耳机与卫衣内衬、黑耳朵、白绒毛。红色是唯一的彩色，少用才显眼。</p>
+          <div class="swatches">
+            {
+              colors.map((c) => (
+                <div class="sw">
+                  <div class="chip" style={`background: var(${c.token})`} />
+                  <div class="sw-meta">
+                    <b>{c.name}</b>
+                    <span class="mono">{c.en} · {c.hex}</span>
+                    <p>{c.use}</p>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+          <div class="ratio" aria-label="用色比例">
+            <span class="r-white">白 60</span>
+            <span class="r-black">黑 30</span>
+            <span class="r-red">红 10</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="block">
+        <div class="num mono">05</div>
+        <div class="body">
+          <h2>字体</h2>
+          <div class="type">
+            <div class="type-row">
+              <div class="specimen display">Aa 做东西</div>
+              <div class="type-meta"><b>Bricolage Grotesque</b>品牌大标题。圆润、有点倔，和熊猫的轮廓一个性格。字标使用独立绘制的手写签名轮廓。</div>
+            </div>
+            <div class="type-row">
+              <div class="specimen sans">把想法做成作品</div>
+              <div class="type-meta"><b>苹方 / 系统无衬线</b>中文与正文。标题用 Semibold，正文用 Regular。</div>
+            </div>
+            <div class="type-row">
+              <div class="specimen mono">&lt;/&gt; build</div>
+              <div class="type-meta"><b>SF Mono / 系统等宽</b>编号、标签、代码。熊猫卫衣上的 &lt;/&gt; 就是它。</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="block">
+        <div class="num mono">06</div>
+        <div class="body">
+          <h2>语气</h2>
+          <p class="lead">像跟朋友讲自己最近做的东西：第一人称、说具体的事、不喊口号。</p>
+          <div class="voice">
+            {
+              voice.map((v) => (
+                <div class="pair">
+                  <p class="yes">{v.yes}</p>
+                  <p class="no">{v.no}</p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="block">
+        <div class="num mono">07</div>
+        <div class="body">
+          <h2>应用</h2>
+          <div class="apps">
+            <figure>
+              <div class="mock tab">
+                <div class="tab-pill"><img src={mini.src} alt="" width="16" height="16" />KunKunRed</div>
+                <div class="tab-pill dim">新标签页</div>
+              </div>
+              <figcaption>浏览器标签：小尺寸版</figcaption>
+            </figure>
+            <figure>
+              <div class="mock about">
+                <img class="avatar-image" src={avatar.src} alt="" width="40" height="40" />
+                <div><b>Made by KunKunRed</b><span>kunkunred.hiwik.cn</span></div>
+              </div>
+              <figcaption>App「关于」页署名</figcaption>
+            </figure>
+            <figure>
+              <div class="mock share">
+                <span class="share-k mono">随笔</span>
+                <span class="share-t">上架 App Store，我踩过的三个坑</span>
+                <span class="share-f"><img src={avatar.src} alt="" width="28" height="28" />KunKunRed</span>
+              </div>
+              <figcaption>分享图 / 小红书封面</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot mono">
+      <img src={sleepy.src} alt="" width="36" height="36" />
+      KunKunRed Brand
+    </footer>
+  </body>
+</html>
+
+<style>
+  .brand {
+    --display: 'Bricolage Grotesque Variable', var(--font-sans);
+    margin: 0;
+    background: var(--kk-white);
+    color: var(--kk-black);
+    font-family: var(--font-sans);
+  }
+
+  .dot {
+    display: inline-block;
+    width: 0.22em;
+    height: 0.22em;
+    margin-left: 0.06em;
+    border-radius: 50%;
+    background: var(--kk-red);
+    vertical-align: 0.62em;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    background: var(--kk-black);
+    color: var(--kk-white);
+    padding: clamp(3rem, 10vw, 7rem) 1rem clamp(3rem, 8vw, 5rem);
+    text-align: center;
+  }
+  .back {
+    display: inline-block;
+    margin-bottom: 2.5rem;
+    font-size: 0.78rem;
+    color: var(--kk-gray);
+    text-decoration: none;
+  }
+  .back:hover {
+    color: var(--kk-white);
+  }
+  .hero-identity {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(1rem, 3vw, 2.5rem);
+    margin: 0 auto;
+    max-width: 800px;
+  }
+  .hero-badge {
+    display: block;
+    margin: 0 auto;
+    width: clamp(150px, 19vw, 190px);
+    height: auto;
+    border-radius: 22px;
+    animation: pop 0.9s var(--spring) both;
+  }
+  .wordmark {
+    margin: 0;
+    line-height: 0;
+    animation: rise 0.8s var(--ease-out) 0.15s both;
+  }
+  .wordmark img {
+    margin: 0 auto;
+    width: clamp(280px, 48vw, 520px);
+    height: auto;
+  }
+  .hero-sub {
+    margin: 1.75rem 0 0;
+    color: var(--kk-gray);
+    letter-spacing: 0.2em;
+    font-size: 0.85rem;
+    animation: rise 0.8s var(--ease-out) 0.25s both;
+  }
+  @keyframes pop {
+    from { transform: scale(0.2); opacity: 0; }
+  }
+  @keyframes rise {
+    from { transform: translateY(12px); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-badge, .wordmark, .hero-sub { animation: none; }
+  }
+
+  /* ---------- Blocks ---------- */
+  main {
+    max-width: 68rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  .block {
+    display: grid;
+    grid-template-columns: 5rem minmax(0, 1fr);
+    gap: 1rem;
+    padding: clamp(3rem, 7vw, 5rem) 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--kk-black) 10%, transparent);
+  }
+  .num {
+    font-size: 0.85rem;
+    color: var(--kk-red);
+    padding-top: 0.6rem;
+  }
+  h2 {
+    margin: 0 0 1rem;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(1.6rem, 3.5vw, 2.3rem);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+  h3 {
+    margin: 2.5rem 0 1rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    color: var(--kk-gray);
+    font-weight: 600;
+  }
+  .lead {
+    max-width: 38rem;
+    font-size: 1.08rem;
+    margin: 0 0 1.5rem;
+  }
+  .note {
+    max-width: 38rem;
+    color: var(--kk-gray);
+    font-size: 0.92rem;
+    margin: 1.5rem 0 0;
+  }
+
+  /* 01 远近 */
+  .zoom {
+    display: flex;
+    align-items: center;
+    gap: clamp(1.25rem, 4vw, 3rem);
+    padding: 2rem 0;
+  }
+  .z {
+    border-radius: 50%;
+    background: var(--kk-red);
+  }
+  .z1 { width: 8px; height: 8px; }
+  .z2 { width: 22px; height: 22px; }
+
+  /* 02 标志 */
+  .marks, .apps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+  figure {
+    margin: 0;
+  }
+  figcaption {
+    margin-top: 0.75rem;
+    font-size: 0.88rem;
+    color: var(--kk-gray);
+  }
+  figcaption b {
+    display: block;
+    color: var(--kk-black);
+  }
+  .tile {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    border-radius: 20px;
+  }
+  .tile img {
+    width: 52%;
+    height: auto;
+  }
+  .avatar-image { border-radius: 14px; }
+  .signature-tile img { width: 82%; }
+  .light { background: color-mix(in srgb, var(--kk-black) 5%, var(--kk-white)); }
+  .dark { background: var(--kk-black); }
+  .red { background: var(--kk-red); }
+  .sizes {
+    display: flex;
+    align-items: end;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+  .sizes span {
+    font-size: 0.78rem;
+    color: var(--kk-gray);
+  }
+  .lockups {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .lockup {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 1.1rem 1.4rem;
+    border-radius: 16px;
+    border: 1px solid color-mix(in srgb, var(--kk-black) 10%, transparent);
+    max-width: 100%;
+  }
+  .lockup.on-dark {
+    background: var(--kk-black);
+    color: var(--kk-white);
+    border-color: transparent;
+  }
+  .wm {
+    height: 42px;
+    width: auto;
+    min-width: 0;
+    object-fit: contain;
+  }
+  .rules {
+    margin: 0;
+    padding-left: 1.1rem;
+    max-width: 40rem;
+  }
+  .rules li + li {
+    margin-top: 0.5rem;
+  }
+  .rules li::marker {
+    color: var(--kk-red);
+  }
+
+  /* 03 名字 */
+  .names {
+    margin: 0;
+  }
+  .names div {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-top: 1px solid color-mix(in srgb, var(--kk-black) 10%, transparent);
+  }
+  .names dt {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+  .names dd {
+    margin: 0;
+  }
+
+  /* 04 颜色 */
+  .swatches {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+  .chip {
+    aspect-ratio: 4 / 3;
+    border-radius: 16px;
+    border: 1px solid color-mix(in srgb, var(--kk-black) 8%, transparent);
+  }
+  .sw-meta {
+    margin-top: 0.75rem;
+  }
+  .sw-meta b {
+    display: block;
+  }
+  .sw-meta span {
+    font-size: 0.75rem;
+    color: var(--kk-gray);
+  }
+  .sw-meta p {
+    margin: 0.4rem 0 0;
+    font-size: 0.86rem;
+    line-height: 1.6;
+  }
+  .ratio {
+    display: flex;
+    height: 2.6rem;
+    margin-top: 2rem;
+    border-radius: 999px;
+    overflow: hidden;
+    font-size: 0.78rem;
+    border: 1px solid color-mix(in srgb, var(--kk-black) 10%, transparent);
+  }
+  .ratio span {
+    display: grid;
+    place-items: center;
+  }
+  .r-white { flex: 6; }
+  .r-black { flex: 3; background: var(--kk-black); color: var(--kk-white); }
+  .r-red { flex: 1; min-width: 4rem; background: var(--kk-red); color: var(--kk-white); }
+
+  /* 05 字体 */
+  .type-row {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 1.5rem;
+    align-items: center;
+    padding: 1.5rem 0;
+    border-top: 1px solid color-mix(in srgb, var(--kk-black) 10%, transparent);
+  }
+  .specimen {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1.1;
+  }
+  .specimen.display {
+    font-family: var(--display);
+    font-weight: 800;
+    font-stretch: 90%;
+    letter-spacing: -0.03em;
+  }
+  .specimen.sans {
+    font-weight: 600;
+  }
+  .specimen.mono {
+    color: var(--kk-red);
+  }
+  .type-meta {
+    font-size: 0.9rem;
+    color: var(--kk-gray);
+  }
+  .type-meta b {
+    display: block;
+    color: var(--kk-black);
+  }
+
+  /* 06 语气 */
+  .voice {
+    display: grid;
+    gap: 0.75rem;
+  }
+  .pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  .pair p {
+    margin: 0;
+    padding: 1rem 1.2rem;
+    border-radius: 14px;
+  }
+  .yes {
+    background: color-mix(in srgb, var(--kk-black) 5%, var(--kk-white));
+  }
+  .yes::before {
+    content: '';
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-right: 0.6rem;
+    border-radius: 50%;
+    background: var(--kk-red);
+    vertical-align: 0.1em;
+  }
+  .no {
+    color: var(--kk-gray);
+    text-decoration: line-through;
+    text-decoration-color: color-mix(in srgb, var(--kk-gray) 60%, transparent);
+  }
+
+  /* 07 应用 */
+  .mock {
+    aspect-ratio: 4 / 3;
+    border-radius: 20px;
+    padding: 1.25rem;
+    display: flex;
+    font-size: 0.85rem;
+  }
+  .tab {
+    background: color-mix(in srgb, var(--kk-black) 8%, var(--kk-white));
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+  .tab-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.45rem 0.8rem;
+    border-radius: 10px 10px 0 0;
+    background: var(--kk-white);
+    white-space: nowrap;
+  }
+  .tab-pill.dim {
+    background: transparent;
+    color: var(--kk-gray);
+  }
+  .about {
+    background: var(--kk-black);
+    color: var(--kk-white);
+    align-items: flex-end;
+    gap: 0.75rem;
+  }
+  .about div {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.4;
+  }
+  .about span {
+    color: var(--kk-gray);
+    font-size: 0.78rem;
+  }
+  .share {
+    background: var(--kk-red);
+    color: var(--kk-white);
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .share-k {
+    font-size: 0.75rem;
+    opacity: 0.85;
+  }
+  .share-t {
+    font-weight: 700;
+    font-size: 1.15rem;
+    line-height: 1.35;
+  }
+  .share-f {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--display);
+    font-weight: 800;
+  }
+  .share-f img {
+    padding: 2px;
+    border-radius: 6px;
+    background: var(--kk-white);
+  }
+  .share .dot {
+    background: var(--kk-white);
+  }
+
+  .foot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 4rem 1rem;
+    font-size: 0.78rem;
+    color: var(--kk-gray);
+  }
+
+  @media (max-width: 720px) {
+    .hero-identity { flex-direction: column; gap: 1rem; }
+    .hero-badge { width: 150px; }
+    .wordmark img { width: min(82vw, 400px); }
+    .block {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.25rem;
+    }
+    .marks, .apps {
+      grid-template-columns: 1fr;
+    }
+    .tile, .mock {
+      aspect-ratio: 16 / 10;
+    }
+    .swatches {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .type-row, .pair, .names div {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+  }
+</style>

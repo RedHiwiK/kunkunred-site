@@ -1,5 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import { t, href, type Lang } from '../i18n';
+import { profile } from '../data/profile';
+import wordmark from '../assets/brand/wordmark.svg';
+import wordmarkWhite from '../assets/brand/wordmark-white.svg';
 
 interface Props {
   lang: Lang;
@@ -20,8 +24,9 @@ const isActive = (p: string) => path.startsWith(href(lang, p));
 <header class="site-header">
   <div class="wrap-wide bar">
     <a href={href(lang, '/')} class="mark" aria-label={s.siteTitle}>
-      <span class="logo" aria-hidden="true">R</span>
-      <span class="name">KunKunRed</span>
+      <Image src={profile.avatar} alt="" width={32} height={32} densities={[2, 3]} class="logo" loading="eager" />
+      <img src={wordmark.src} alt="" width="2150" height="515" class="wm wm-light" aria-hidden="true" />
+      <img src={wordmarkWhite.src} alt="" width="2150" height="515" class="wm wm-dark" aria-hidden="true" />
     </a>
     <nav aria-label="Primary">
       {
@@ -105,40 +110,43 @@ const isActive = (p: string) => path.startsWith(href(lang, p));
   .mark {
     display: inline-flex;
     align-items: center;
-    gap: 0.7rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
+    gap: 0.6rem;
   }
 
-  /* 标志：斜体衬线 R，右上角一颗红点（呼应头像里的红点） */
   .logo {
-    position: relative;
-    display: inline-block;
-    width: 1.5rem;
-    font-family: var(--font-display);
-    font-size: 1.9rem;
-    font-style: italic;
-    font-weight: 600;
-    line-height: 1;
-    text-align: center;
-    font-variation-settings: 'opsz' 72;
-    transform: translateY(-1px);
-  }
-
-  .logo::after {
-    content: '';
-    position: absolute;
-    right: -0.16em;
-    top: 0.06em;
-    width: 0.2em;
-    height: 0.2em;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    background: var(--seal);
+    box-shadow: 0 0 0 1px var(--rule);
     transition: transform 0.6s var(--spring);
   }
 
-  .mark:hover .logo::after {
-    transform: translate(2px, -3px) scale(1.25);
+  .mark:hover .logo {
+    transform: rotate(-8deg) scale(1.08);
+  }
+
+  .wm {
+    width: auto;
+    height: 26px;
+  }
+
+  /* 签名有黑白两版，跟随明暗模式切换 */
+  .wm-dark {
+    display: none;
+  }
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme='light'])) .wm-light {
+      display: none;
+    }
+    :global(:root:not([data-theme='light'])) .wm-dark {
+      display: block;
+    }
+  }
+  :global(:root[data-theme='dark']) .wm-light {
+    display: none;
+  }
+  :global(:root[data-theme='dark']) .wm-dark {
+    display: block;
   }
 
   nav {
