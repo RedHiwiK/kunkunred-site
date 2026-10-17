@@ -20,7 +20,7 @@ KunKunRed 的个人主站。Astro 静态站，中英双语（中文无前缀，�
 ## 设计
 - 丰富但突出重点，宽版布局；首页要有入场动画，并尊重"减弱动态效果"。
 - 颜色只用 `src/styles/global.css` 里的 token，组件里不写颜色字面量。
-- 品牌正本在 `~/Indie/kunkunred-brand`（规范见其 README）。本仓库只保留页面用到的成品副本：`src/assets/avatar.png`、`src/assets/brand/*.svg`、`public/favicon.png`、`public/apple-touch-icon.png`；品牌素材更新时从正本复制过来，不用符号链接（CI 只检出本仓库）。
+- 品牌正本在 `~/Indie/media/kunkunred-brand`（规范见其 README）。本仓库只保留页面用到的成品副本：`src/assets/avatar.png`、`src/assets/brand/*.svg`、`public/favicon.png`、`public/apple-touch-icon.png`；品牌素材更新时从正本复制过来，不用符号链接（CI 只检出本仓库）。
 - 个人 IP 是红底 3D 熊猫头像（名片卡、关于我、导航栏）。名字用手写签名 `wordmark.svg` / `wordmark-white.svg`，按明暗模式切换。`favicon.png` 用小尺寸扁平熊猫，保持 192×192（Google 搜索结果只认边长为 48 倍数的图标）；`apple-touch-icon.png` 用 3D 头像。
 - 标题字体 Bricolage Grotesque，强调色 `--seal` 与品牌红 `--kk-red` 同色相。
 - UI 中不用 emoji。
