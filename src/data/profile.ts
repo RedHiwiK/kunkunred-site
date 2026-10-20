@@ -25,56 +25,12 @@ export const profile = {
     // { platform: 'bilibili', label: 'B站', url: 'https://space.bilibili.com/你的UID' },
     // { platform: 'email', label: 'Email', url: 'mailto:you@example.com' },
   ] as SocialLink[],
+  // 公安联网备案：页脚每页显示，链接到全国互联网安全管理服务平台的查询页
+  beian: {
+    text: '闽公网安备35020502001161号',
+    url: 'https://beian.mps.gov.cn/#/query/webSearch?code=35020502001161',
+  },
 };
-
-export const openSource = [
-  {
-    repo: 'RedHiwiK/HiwiKInsight',
-    name: 'HiwiKInsight',
-    desc: {
-      zh: '自托管的 App 数据分析与 App Store 收入看板：一个 Go 程序加 SQLite，配套 iOS SDK、邮件日报与告警，还能让 AI 通过命令行或 MCP 直接查数据。',
-      en: 'Self-hosted product analytics and App Store revenue for indie iOS apps: one Go binary with SQLite, a Swift SDK, email reports and alerts, and a read-only query layer AI agents can use through a CLI or MCP.',
-    },
-    fallbackStars: 0,
-  },
-  {
-    repo: 'RedHiwiK/apple-app-store-release',
-    name: 'apple-app-store-release',
-    desc: {
-      zh: '让 AI 带你走完 App Store 上架全流程：元信息、隐私清单、签名打包、TestFlight、提审自检、营销预览图。Claude Code 与 Codex 通用。',
-      en: 'An agent skill that walks you through an entire App Store release: metadata, privacy manifest, signing, TestFlight, review checklist and marketing screenshots. Works with Claude Code and Codex.',
-    },
-    fallbackStars: 27,
-  },
-  {
-    repo: 'RedHiwiK/telemetrydeck-ios-skill',
-    name: 'telemetrydeck-ios-skill',
-    desc: {
-      zh: '给 iOS / macOS App 接入 TelemetryDeck 匿名统计的标准流程，真实接入时踩过的坑都写进去了。',
-      en: 'A step-by-step skill for adding TelemetryDeck analytics to iOS and macOS apps, with every pitfall from a real integration written down.',
-    },
-    fallbackStars: 0,
-  },
-];
-
-/** 构建时取 GitHub star 数，取不到就用兜底值 */
-export async function withStars() {
-  return Promise.all(
-    openSource.map(async (p) => {
-      try {
-        const res = await fetch(`https://api.github.com/repos/${p.repo}`, {
-          headers: { Accept: 'application/vnd.github+json' },
-          signal: AbortSignal.timeout(5000),
-        });
-        if (!res.ok) throw new Error(String(res.status));
-        const data = (await res.json()) as { stargazers_count: number };
-        return { ...p, stars: data.stargazers_count };
-      } catch {
-        return { ...p, stars: p.fallbackStars };
-      }
-    }),
-  );
-}
 
 export const principles = {
   zh: [

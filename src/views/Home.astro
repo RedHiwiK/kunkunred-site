@@ -3,7 +3,9 @@ import Base from '../layouts/Base.astro';
 import ProfileCard from '../components/ProfileCard.astro';
 import AppCard from '../components/AppCard.astro';
 import { apps } from '../data/apps';
-import { principles, stack, withStars } from '../data/profile';
+import { principles, stack } from '../data/profile';
+import { withStars } from '../data/projects';
+import ProjectIcon from '../components/ProjectIcon.astro';
 import { t, href, formatDate, type Lang } from '../i18n';
 import { postsFor, postHref } from '../lib/content';
 import wordmark from '../assets/brand/wordmark.svg';
@@ -101,14 +103,9 @@ const [line1, line2] = s.statement.split('\n');
     <div class="repo-grid">
       {
         repos.map((r, i) => (
-          <a href={`https://github.com/${r.repo}`} class="repo" target="_blank" rel="noopener" data-reveal style={`--d:${i}`}>
+          <a href={href(lang, `/projects/${r.slug}/`)} class="repo" data-reveal style={`--d:${i};--accent:var(--proj-${r.slug}, var(--seal))`}>
             <div class="repo-top">
-              <svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true">
-                <path
-                  fill="currentColor"
-                  d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.71 1.71.75.75 0 0 1-1.06 1.06A2.49 2.49 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.71A2.5 2.5 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.09a.25.25 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z"
-                />
-              </svg>
+              <ProjectIcon project={r} size={28} />
               <span class="repo-name mono">{r.name}</span>
               {r.stars > 0 && (
                 <span class="stars mono">
@@ -119,8 +116,8 @@ const [line1, line2] = s.statement.split('\n');
                 </span>
               )}
             </div>
-            <p>{r.desc[lang]}</p>
-            <span class="go mono">GitHub ↗</span>
+            <p>{r.tagline[lang]}</p>
+            <span class="go mono">{s.learnMore} →</span>
           </a>
         ))
       }

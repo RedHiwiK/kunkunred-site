@@ -1,0 +1,55 @@
+---
+import { Image } from 'astro:assets';
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+  size: number;
+  class?: string;
+}
+
+const { project, size, class: cls } = Astro.props;
+---
+
+{
+  project.icon ? (
+    <Image
+      src={project.icon}
+      alt=""
+      width={size}
+      height={size}
+      densities={[1, 2, 3]}
+      class:list={['project-icon', cls]}
+      style={`--size:${size}px`}
+      loading={size > 64 ? 'eager' : 'lazy'}
+    />
+  ) : (
+    <span class:list={['project-icon', 'letter', cls]} style={`--size:${size}px`} aria-hidden="true">
+      {project.name.charAt(0).toUpperCase()}
+    </span>
+  )
+}
+
+<style>
+  .project-icon {
+    width: var(--size);
+    height: var(--size);
+    flex: none;
+    border-radius: 22.5%;
+    corner-shape: superellipse(1.6);
+    box-shadow:
+      0 0 0 0.5px color-mix(in oklch, var(--ink) 12%, transparent),
+      var(--shadow);
+  }
+
+  .letter {
+    display: grid;
+    place-items: center;
+    background: color-mix(in oklch, var(--accent, var(--seal)) 14%, var(--paper-raised));
+    color: var(--accent, var(--seal));
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: calc(var(--size) * 0.46);
+    line-height: 1;
+  }
+</style>

@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # 开源项目文档在各自仓库，构建时拉取；每天重建一次，让文档改动自动上线
+  schedule:
+    - cron: '0 20 * * *'
 
 permissions:
   contents: read

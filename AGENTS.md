@@ -14,7 +14,11 @@ KunKunRed 的个人主站。Astro 静态站，中英双语（中文无前缀，�
 - 三个 App 目前都只支持 iPhone，不要写 iPad / Mac。
 - App 介绍只写 App Store 官方描述、商店元数据或用户确认过的功能，不要从仓库名、代码或设计文档推测功能（曾误写萌宠日记"家人一起记录"、MoonLog"加密货币"）。
 - 博客栏目叫「随笔」（英文 Writing）。
-- 个人信息、社交账号、开源项目、做事原则：`src/data/profile.ts`；App：`src/data/apps.ts`；界面文案：`src/i18n.ts`。
+- 个人信息、社交账号、做事原则：`src/data/profile.ts`；App：`src/data/apps.ts`；开源项目：`src/data/projects.ts`；界面文案：`src/i18n.ts`。
+- 开源项目和 App 同级：首页"开源"卡片进入项目页 `/projects/<slug>/`（图标、介绍、亮点、安装、文档目录）。项目介绍只写项目 README 里有的内容。
+- 项目文档的正本在项目仓库的 `docs/{en,zh}/`（frontmatter：`title` `description` `group` `order`），不要在本仓库写文档内容。`scripts/fetch-docs.mjs` 在 `pnpm dev` / `pnpm build` 前把它拉到 `src/content/projects/<slug>/`（已忽略），并把相对 `.md` 链接改写成站内相对路由；本地预览未推送的文档用 `JOT_DOCS_DIR=<jot>/docs pnpm dev`。新增带文档的项目时，在脚本的 `projects` 和 `projects.ts` 的 `docs` 里各加一项，`home` 两边一致。
+- 文档页 `/projects/<slug>/docs/<group>/<page>/`；中文缺译文时回落英文并提示。`/en/projects/<slug>/llms.txt` 和 `llms-full.txt` 由英文文档生成，给 agent 用。
+- 文档搜索用 Pagefind：构建后 `pagefind --site dist` 只索引带 `data-pagefind-body` 的文档正文，按页面语言分索引，按 `project` 过滤。
 - 社交平台在 `profile.links` 里配置，名片卡、关于我、页脚会自动显示对应图标。
 
 ## 设计
@@ -26,7 +30,7 @@ KunKunRed 的个人主站。Astro 静态站，中英双语（中文无前缀，�
 - UI 中不用 emoji。
 
 ## 部署
-- 仓库 `RedHiwiK/kunkunred-site`，push 到 `main` 后由 GitHub Actions 部署到 GitHub Pages，自定义域名 https://kunkunred.hiwik.cn/（阿里云解析 `kunkunred` CNAME → `redhiwik.github.io`，`public/CNAME` 记录域名）
+- 仓库 `RedHiwiK/kunkunred-site`，push 到 `main` 后由 GitHub Actions 部署到 GitHub Pages（每天 20:00 UTC 还会定时重建，让项目仓库的文档改动自动上线），自定义域名 https://kunkunred.hiwik.cn/（阿里云解析 `kunkunred` CNAME → `redhiwik.github.io`，`public/CNAME` 记录域名）
 - 站内链接一律用 `src/i18n.ts` 的 `href()` / `withBase()` 生成，Markdown 里用相对路径，这样以后换回子路径部署（`base`）也不用改代码。
 
 ## 验证

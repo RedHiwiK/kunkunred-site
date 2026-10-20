@@ -23,6 +23,9 @@
   --app-cutepet: oklch(70% 0.11 15);
   --app-moonlog: oklch(74% 0.15 70);
 
+  /* 开源项目的主题色，没有定义的项目用 --seal */
+  --proj-jot: oklch(70% 0.16 48);
+
   /* 品牌固定色：取自熊猫 IP，明暗模式下不变 */
   --kk-red: #fc3131;
   --kk-black: #161a1b;
@@ -63,6 +66,7 @@
     --app-vitae: oklch(72% 0.14 250);
     --app-cutepet: oklch(78% 0.1 15);
     --app-moonlog: oklch(80% 0.14 75);
+  --proj-jot: oklch(76% 0.14 52);
     --selection: oklch(68% 0.17 32 / 0.3);
     --shadow: 0 1px 2px oklch(0% 0 0 / 0.3), 0 8px 24px -12px oklch(0% 0 0 / 0.6);
     --shadow-card: 0 30px 60px -30px oklch(0% 0 0 / 0.7), 0 12px 24px -16px oklch(0% 0 0 / 0.5);
@@ -83,6 +87,7 @@
   --app-vitae: oklch(72% 0.14 250);
   --app-cutepet: oklch(78% 0.1 15);
   --app-moonlog: oklch(80% 0.14 75);
+  --proj-jot: oklch(76% 0.14 52);
   --selection: oklch(68% 0.17 32 / 0.3);
   --shadow: 0 1px 2px oklch(0% 0 0 / 0.3), 0 8px 24px -12px oklch(0% 0 0 / 0.6);
   --shadow-card: 0 30px 60px -30px oklch(0% 0 0 / 0.7), 0 12px 24px -16px oklch(0% 0 0 / 0.5);
@@ -377,6 +382,8 @@ p {
 }
 
 .prose pre {
+  background: var(--paper-sunken);
+  color: var(--ink);
   font-size: 0.875rem;
   line-height: 1.6;
   padding: 1rem 1.15rem;
@@ -402,3 +409,37 @@ p {
   border-radius: var(--radius);
   border: 1px solid var(--rule);
 }
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  display: block;
+  overflow-x: auto;
+}
+
+.prose th,
+.prose td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.55em 0.9em 0.55em 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.prose th {
+  color: var(--ink-soft);
+  font-weight: 600;
+  border-bottom-color: var(--rule-strong);
+}
+
+.prose kbd {
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  padding: 0.1em 0.4em;
+  border: 1px solid var(--rule-strong);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  background: var(--paper-raised);
+}
+

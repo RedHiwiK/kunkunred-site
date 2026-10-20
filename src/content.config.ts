@@ -15,4 +15,15 @@ const posts = defineCollection({
   }),
 });
 
-export const collections = { posts };
+// 开源项目文档：src/content/projects/<project>/{en|zh}/<group>/<page>.md，由 scripts/fetch-docs.mjs 从项目仓库拉取
+const docs = defineCollection({
+  loader: glob({ pattern: '*/{en,zh}/**/*.md', base: './src/content/projects' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    group: z.string(),
+    order: z.number(),
+  }),
+});
+
+export const collections = { posts, docs };

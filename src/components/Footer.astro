@@ -1,5 +1,6 @@
 ---
 import SocialIcon from './SocialIcon.astro';
+import beianIcon from '../assets/beian.png';
 import { t, href, type Lang } from '../i18n';
 import { profile } from '../data/profile';
 
@@ -25,6 +26,7 @@ const rss = href(lang, '/rss.xml');
     </div>
     <div class="bottom">
       <p class="mono copy">© {year} {profile.name}</p>
+      <a class="beian" href={profile.beian.url} rel="noreferrer" target="_blank" lang="zh-CN"><img src={beianIcon.src} alt="" width="16" height="18" />{profile.beian.text}</a>
       <p>{s.colophon}</p>
     </div>
   </div>
@@ -99,6 +101,23 @@ const rss = href(lang, '/rss.xml');
 
   .copy {
     font-size: 0.75rem;
+  }
+
+  .beian {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8125rem;
+    transition: color 0.2s;
+  }
+
+  .beian img {
+    width: 16px;
+    height: 18px;
+  }
+
+  .beian:hover {
+    color: var(--ink);
   }
 
 </style>

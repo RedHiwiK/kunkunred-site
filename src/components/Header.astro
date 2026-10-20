@@ -14,11 +14,11 @@ const { lang, alternate } = Astro.props;
 const s = t(lang);
 const path = Astro.url.pathname;
 const items = [
-  { key: 'apps', path: '/#apps', match: '/apps/' },
-  { key: 'writing', path: '/writing/', match: '/writing/' },
-  { key: 'about', path: '/about/', match: '/about/' },
+  { key: 'apps', path: '/#apps', match: ['/apps/', '/projects/'] },
+  { key: 'writing', path: '/writing/', match: ['/writing/'] },
+  { key: 'about', path: '/about/', match: ['/about/'] },
 ] as const;
-const isActive = (p: string) => path.startsWith(href(lang, p));
+const isActive = (ps: readonly string[]) => ps.some((p) => path.startsWith(href(lang, p)));
 ---
 
 <header class="site-header">

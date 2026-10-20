@@ -1,0 +1,328 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectIcon from '../components/ProjectIcon.astro';
+import { projects, type Project } from '../data/projects';
+import { docPages, docHref } from '../lib/docs';
+import { t, href, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  project: Project & { stars: number };
+}
+
+const { lang, project } = Astro.props;
+const s = t(lang);
+const others = projects.filter((p) => p.slug !== project.slug);
+const pages = await docPages(project, lang);
+const groups = project.docs?.groups.map((g) => ({ ...g, pages: pages.filter((p) => p.entry.data.group === g.id) })).filter((g) => g.pages.length) ?? [];
+const repoUrl = `https://github.com/${project.repo}`;
+---
+
+<Base lang={lang} title={project.name} description={project.tagline[lang]}>
+  <article style={`--accent:var(--proj-${project.slug}, var(--seal))`}>
+    <div class="glow" aria-hidden="true"></div>
+    <header class="wrap head">
+      <ProjectIcon project={project} size={112} />
+      <h1 class="rise" style="--i:1">{project.name}</h1>
+      <p class="tagline rise" style="--i:2">{project.tagline[lang]}</p>
+      <div class="actions rise" style="--i:3">
+        <a class="btn primary" href={repoUrl} target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"></path></svg>
+          GitHub
+        </a>
+        {project.docs && <a class="btn" href={docHref(project, lang, project.docs.home)}>{s.docs} →</a>}
+        {project.releases && <a class="btn" href={`${repoUrl}/releases/latest`} target="_blank" rel="noopener">{s.download} ↗</a>}
+      </div>
+      <dl class="facts mono rise" style="--i:4">
+        <div><dt>{s.kind}</dt><dd>{project.kind[lang]}</dd></div>
+        <div><dt>{s.stack}</dt><dd>{project.stack}</dd></div>
+        {project.license && <div><dt>{s.license}</dt><dd>{project.license}</dd></div>}
+        {project.stars > 0 && <div><dt>Stars</dt><dd>{project.stars}</dd></div>}
+      </dl>
+    </header>
+
+    <section class="wrap block rise" style="--i:5">
+      <p class="intro">{project.intro[lang]}</p>
+    </section>
+
+    <section class="wrap block rise" style="--i:6">
+      <div class="eyebrow"><span>{s.highlights}</span></div>
+      <ul class="highlights">
+        {project.highlights[lang].map((h, i) => (
+          <li>
+            <span class="num mono">{String(i + 1).padStart(2, '0')}</span>
+            <span>{h}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    {
+      project.install && (
+        <section class="wrap block" data-reveal>
+          <div class="eyebrow"><span>{s.install}</span></div>
+          <pre class="install mono"><code>{project.install}</code></pre>
+        </section>
+      )
+    }
+
+    {
+      groups.length > 0 && (
+        <section class="wrap block" data-reveal>
+          <div class="eyebrow"><span>{s.docs}</span></div>
+          <div class="doc-groups">
+            {groups.map((g) => (
+              <div>
+                <h2 class="doc-group mono">{g.label[lang]}</h2>
+                <ul>
+                  {g.pages.map((p) => (
+                    <li><a href={docHref(project, lang, p.id)}>{p.entry.data.title}</a></li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    <section class="wrap block" data-reveal>
+      <div class="eyebrow"><span>{s.otherProjects}</span></div>
+      <div class="others">
+        {others.map((o) => (
+          <a href={href(lang, `/projects/${o.slug}/`)} class="other" style={`--accent:var(--proj-${o.slug}, var(--seal))`}>
+            <ProjectIcon project={o} size={48} />
+            <span>
+              <span class="oname">{o.name}</span>
+              <span class="otag">{o.tagline[lang]}</span>
+            </span>
+          </a>
+        ))}
+      </div>
+    </section>
+  </article>
+</Base>
+
+<style>
+  article {
+    position: relative;
+  }
+
+  .glow {
+    position: absolute;
+    inset: -4rem 0 auto;
+    height: 28rem;
+    z-index: -1;
+    background: radial-gradient(40rem 22rem at 50% 0%, color-mix(in oklch, var(--accent) 22%, transparent), transparent 70%);
+    pointer-events: none;
+  }
+
+  .head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: clamp(3rem, 9vw, 5rem);
+  }
+
+  h1 {
+    margin-top: 1.5rem;
+    font-size: clamp(2rem, 6vw, 2.75rem);
+    font-variation-settings: 'opsz' 72;
+    overflow-wrap: anywhere;
+  }
+
+  .tagline {
+    max-width: 32rem;
+    margin-top: 0.6rem;
+    color: var(--ink-soft);
+    font-size: 1.0625rem;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 1.75rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    height: 2.6rem;
+    padding: 0 1.1rem;
+    border-radius: 999px;
+    border: 1px solid var(--rule-strong);
+    background: var(--paper-raised);
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: transform 0.4s var(--spring), border-color 0.2s;
+  }
+
+  .btn:hover {
+    border-color: var(--ink-faint);
+  }
+
+  .btn:active {
+    transform: scale(0.96);
+  }
+
+  .btn.primary {
+    border-color: transparent;
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 2rem;
+    margin: 2.25rem 0 0;
+    font-size: 0.75rem;
+  }
+
+  .facts div {
+    display: grid;
+    gap: 0.1rem;
+  }
+
+  .facts dt {
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.6875rem;
+  }
+
+  .facts dd {
+    margin: 0;
+    color: var(--ink-soft);
+  }
+
+  .block {
+    margin-top: 3.5rem;
+  }
+
+  .intro {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    line-height: 1.7;
+    font-variation-settings: 'opsz' 24;
+  }
+
+  .highlights {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .highlights li {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .highlights li:nth-child(odd) {
+    padding-right: 1.25rem;
+  }
+
+  .num {
+    color: var(--accent);
+    padding-top: 0.15rem;
+  }
+
+  .install {
+    margin: 1rem 0 0;
+    padding: 1rem 1.15rem;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    background: var(--paper-sunken);
+    font-size: 0.875rem;
+    overflow-x: auto;
+  }
+
+  .doc-groups {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem 2rem;
+    margin-top: 1rem;
+  }
+
+  .doc-group {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .doc-groups ul {
+    list-style: none;
+    margin: 0.5rem 0 0;
+    padding: 0;
+  }
+
+  .doc-groups li a {
+    display: block;
+    padding: 0.3rem 0;
+    color: var(--ink-soft);
+    transition: color 0.2s;
+  }
+
+  .doc-groups li a:hover {
+    color: var(--accent);
+  }
+
+  .others {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .other {
+    display: flex;
+    gap: 0.9rem;
+    align-items: center;
+    padding: 0.9rem;
+    border: 1px solid var(--rule);
+    border-radius: 18px;
+    background: var(--paper-raised);
+    transition: border-color 0.2s, translate 0.5s var(--spring);
+  }
+
+  .other:hover {
+    border-color: color-mix(in oklch, var(--accent) 45%, var(--rule));
+    translate: 0 -2px;
+  }
+
+  .other > span {
+    display: grid;
+    min-width: 0;
+  }
+
+  .oname {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    overflow-wrap: anywhere;
+  }
+
+  .otag {
+    color: var(--ink-soft);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 34rem) {
+    .others,
+    .highlights,
+    .doc-groups {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

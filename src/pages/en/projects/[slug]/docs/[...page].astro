@@ -1,0 +1,21 @@
+---
+import DocsPage from '../../../../../views/DocsPage.astro';
+import { projects } from '../../../../../data/projects';
+import { docPages } from '../../../../../lib/docs';
+
+export async function getStaticPaths() {
+  const paths = [];
+  for (const project of projects.filter((p) => p.docs)) {
+    const pages = await docPages(project, 'en');
+    for (const page of pages) {
+      const param = page.id === project.docs!.home ? undefined : page.id;
+      paths.push({ params: { slug: project.slug, page: param }, props: { project, pages, page } });
+    }
+  }
+  return paths;
+}
+
+const { project, pages, page } = Astro.props;
+---
+
+<DocsPage lang="en" project={project} pages={pages} page={page} />

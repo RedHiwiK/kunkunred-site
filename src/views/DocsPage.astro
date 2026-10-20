@@ -1,0 +1,369 @@
+---
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ProjectIcon from '../components/ProjectIcon.astro';
+import DocsSearch from '../components/DocsSearch.astro';
+import type { Project } from '../data/projects';
+import { docHref, editHref, type DocPage } from '../lib/docs';
+import { t, href, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  project: Project;
+  pages: DocPage[];
+  page: DocPage;
+}
+
+const { lang, project, pages, page } = Astro.props;
+const s = t(lang);
+const { Content, headings } = await render(page.entry);
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
+const index = pages.findIndex((p) => p.id === page.id);
+const prev = pages[index - 1];
+const next = pages[index + 1];
+const groups = project.docs!.groups.map((g) => ({ ...g, pages: pages.filter((p) => p.entry.data.group === g.id) })).filter((g) => g.pages.length);
+const groupLabel = project.docs!.groups.find((g) => g.id === page.entry.data.group)?.label[lang];
+const altPath = docHref(project, lang === 'zh' ? 'en' : 'zh', page.id);
+---
+
+<Base lang={lang} title={`${page.entry.data.title} · ${project.name}`} description={page.entry.data.description} altPath={altPath}>
+  <div class="docs wrap-wide" style={`--accent:var(--proj-${project.slug}, var(--seal))`}>
+    <aside class="side">
+      <a class="project" href={href(lang, `/projects/${project.slug}/`)}>
+        <ProjectIcon project={project} size={28} />
+        <span>{project.name}</span>
+        <span class="tag mono">{s.docs}</span>
+      </a>
+      <DocsSearch lang={lang} project={project.slug} />
+      <details class="menu" open>
+        <summary class="mono">{s.docsMenu}</summary>
+        <nav aria-label={s.docsMenu}>
+          {
+            groups.map((g) => (
+              <div class="group">
+                <p class="group-label mono">{g.label[lang]}</p>
+                <ul>
+                  {g.pages.map((p) => (
+                    <li>
+                      <a href={docHref(project, lang, p.id)} aria-current={p.id === page.id ? 'page' : undefined}>
+                        {p.entry.data.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
+        </nav>
+      </details>
+      <div class="side-links">
+        <a href={`https://github.com/${project.repo}`} target="_blank" rel="noopener">GitHub ↗</a>
+        <a href={href('en', `/projects/${project.slug}/llms-full.txt`)}>{s.forAgents}</a>
+      </div>
+    </aside>
+
+    <article class="main" data-pagefind-body data-pagefind-filter={`project:${project.slug}`} lang={page.fallback ? 'en' : undefined}>
+      {page.fallback && <p class="notice" lang={lang === 'zh' ? 'zh-CN' : 'en'}>{s.docsFallback}</p>}
+      <p class="crumb mono" data-pagefind-ignore>{groupLabel}</p>
+      <h1>{page.entry.data.title}</h1>
+      <p class="lead">{page.entry.data.description}</p>
+      <div class="prose">
+        <Content />
+      </div>
+      <footer class="foot" data-pagefind-ignore>
+        <a class="edit mono" href={editHref(project, page)} target="_blank" rel="noopener">{s.editPage} ↗</a>
+        <nav class="pager">
+          {
+            prev ? (
+              <a href={docHref(project, lang, prev.id)} class="pg prev">
+                <span class="mono">← {s.prev}</span>
+                <span>{prev.entry.data.title}</span>
+              </a>
+            ) : (
+              <span />
+            )
+          }
+          {
+            next && (
+              <a href={docHref(project, lang, next.id)} class="pg next">
+                <span class="mono">{s.next} →</span>
+                <span>{next.entry.data.title}</span>
+              </a>
+            )
+          }
+        </nav>
+      </footer>
+    </article>
+
+    {
+      toc.length > 0 && (
+        <nav class="toc" aria-label={s.onThisPage}>
+          <p class="mono">{s.onThisPage}</p>
+          <ul>
+            {toc.map((h) => (
+              <li class={`d${h.depth}`}>
+                <a href={`#${h.slug}`}>{h.text}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )
+    }
+  </div>
+</Base>
+
+<script>
+  // 窄屏默认收起文档目录，避免正文被推到首屏以下
+  const menu = document.querySelector<HTMLDetailsElement>('.docs .menu');
+  if (menu && matchMedia('(max-width: 56rem)').matches) menu.open = false;
+</script>
+
+<style>
+  .docs {
+    display: grid;
+    grid-template-columns: 15rem minmax(0, 1fr) 12rem;
+    gap: 3rem;
+    align-items: start;
+    padding-top: 2.5rem;
+  }
+
+  .side,
+  .toc {
+    position: sticky;
+    top: 5.5rem;
+    max-height: calc(100vh - 7rem);
+    overflow-y: auto;
+  }
+
+  .side {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .project {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 650;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 400;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .menu summary {
+    display: none;
+    cursor: pointer;
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.4rem 0;
+  }
+
+  .group + .group {
+    margin-top: 1.1rem;
+  }
+
+  .group-label {
+    font-size: 0.6875rem;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.3rem;
+  }
+
+  .side ul,
+  .toc ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .side li a {
+    display: block;
+    padding: 0.28rem 0.6rem;
+    margin-left: -0.6rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .side li a:hover {
+    color: var(--ink);
+    background: var(--paper-sunken);
+  }
+
+  .side li a[aria-current='page'] {
+    color: var(--accent);
+    background: color-mix(in oklch, var(--accent) 10%, transparent);
+    font-weight: 600;
+  }
+
+  .side-links {
+    display: grid;
+    gap: 0.3rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--rule);
+    font-size: 0.8125rem;
+    color: var(--ink-faint);
+  }
+
+  .side-links a:hover {
+    color: var(--ink);
+  }
+
+  .main {
+    min-width: 0;
+    padding-bottom: 4rem;
+  }
+
+  .notice {
+    margin-bottom: 1.5rem;
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    background: var(--paper-raised);
+    color: var(--ink-soft);
+    font-size: 0.875rem;
+  }
+
+  .crumb {
+    font-size: 0.75rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  h1 {
+    margin-top: 0.5rem;
+    font-size: clamp(1.9rem, 4vw, 2.5rem);
+  }
+
+  .lead {
+    margin-top: 0.6rem;
+    margin-bottom: 2rem;
+    color: var(--ink-soft);
+    font-size: 1.0625rem;
+  }
+
+  .prose :global(h2),
+  .prose :global(h3) {
+    scroll-margin-top: 5.5rem;
+  }
+
+  .foot {
+    margin-top: 3.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .edit {
+    font-size: 0.75rem;
+    color: var(--ink-faint);
+  }
+
+  .edit:hover {
+    color: var(--ink);
+  }
+
+  .pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .pg {
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    background: var(--paper-raised);
+    transition: border-color 0.2s;
+  }
+
+  .pg:hover {
+    border-color: color-mix(in oklch, var(--accent) 45%, var(--rule));
+  }
+
+  .pg .mono {
+    font-size: 0.75rem;
+    color: var(--ink-faint);
+  }
+
+  .next {
+    text-align: right;
+    grid-column: 2;
+  }
+
+  .toc p {
+    font-size: 0.6875rem;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+
+  .toc a {
+    display: block;
+    padding: 0.2rem 0;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    transition: color 0.2s;
+  }
+
+  .toc a:hover {
+    color: var(--accent);
+  }
+
+  .toc .d3 a {
+    padding-left: 0.8rem;
+  }
+
+  @media (max-width: 72rem) {
+    .docs {
+      grid-template-columns: 14rem minmax(0, 1fr);
+    }
+    .toc {
+      display: none;
+    }
+  }
+
+  @media (max-width: 56rem) {
+    .docs {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.5rem;
+      padding-top: 1.5rem;
+    }
+    .side {
+      position: static;
+      max-height: none;
+    }
+    .menu summary {
+      display: block;
+    }
+    .menu {
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      padding: 0.3rem 0.9rem 0.6rem;
+    }
+    .menu:not([open]) {
+      padding-bottom: 0.3rem;
+    }
+    .side-links {
+      display: none;
+    }
+  }
+</style>
