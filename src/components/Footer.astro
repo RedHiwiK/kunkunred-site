@@ -27,7 +27,6 @@ const rss = href(lang, '/rss.xml');
     <div class="bottom">
       <p class="mono copy">© {year} {profile.name}</p>
       <a class="beian" href={profile.beian.url} rel="noreferrer" target="_blank" lang="zh-CN"><img src={beianIcon.src} alt="" width="16" height="18" />{profile.beian.text}</a>
-      <p>{s.colophon}</p>
     </div>
   </div>
 </footer>
@@ -89,12 +88,12 @@ const rss = href(lang, '/rss.xml');
     transform: translateY(-2px);
   }
 
+  /* 备案号居中：左列版权，右列留空占位 */
   .bottom {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
+    gap: 1rem 1.5rem;
     padding-top: 1.75rem;
     border-top: 1px solid var(--rule);
   }
@@ -118,6 +117,13 @@ const rss = href(lang, '/rss.xml');
 
   .beian:hover {
     color: var(--ink);
+  }
+
+  @media (max-width: 34rem) {
+    .bottom {
+      grid-template-columns: 1fr;
+      justify-items: center;
+    }
   }
 
 </style>
