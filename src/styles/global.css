@@ -22,6 +22,7 @@
   --app-vitae: oklch(62% 0.17 252);
   --app-cutepet: oklch(70% 0.11 15);
   --app-moonlog: oklch(74% 0.15 70);
+  --app-waystub: oklch(45% 0.11 255);
 
   /* 开源项目的主题色，没有定义的项目用 --seal */
   --proj-jot: oklch(70% 0.16 48);
@@ -66,6 +67,8 @@
     --app-vitae: oklch(72% 0.14 250);
     --app-cutepet: oklch(78% 0.1 15);
     --app-moonlog: oklch(80% 0.14 75);
+  --app-waystub: oklch(76% 0.09 252);
+    --app-waystub: oklch(76% 0.09 252);
   --proj-jot: oklch(76% 0.14 52);
     --selection: oklch(68% 0.17 32 / 0.3);
     --shadow: 0 1px 2px oklch(0% 0 0 / 0.3), 0 8px 24px -12px oklch(0% 0 0 / 0.6);
