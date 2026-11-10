@@ -2,8 +2,9 @@ import type { ImageMetadata } from 'astro';
 import vitaeIcon from '../assets/apps/vitae.png';
 import cutepetIcon from '../assets/apps/cutepet.png';
 import moonlogIcon from '../assets/apps/moonlog.png';
+import waystubIcon from '../assets/apps/waystub.png';
 
-export type AppSlug = 'vitae' | 'cutepet' | 'moonlog';
+export type AppSlug = 'waystub' | 'vitae' | 'cutepet' | 'moonlog';
 
 type Localized = { zh: string; en: string };
 
@@ -21,6 +22,27 @@ export interface App {
 }
 
 export const apps: App[] = [
+  {
+    slug: 'waystub',
+    name: { zh: '一票一程', en: 'Waystub' },
+    tagline: {
+      zh: '一张旧票，找回那几天的照片。',
+      en: 'One old ticket brings back the photos from those days.',
+    },
+    intro: {
+      zh: '一票一程把火车票、机票、汽车票收成一张张好看的票根，再按票上的日期和城市，从相册里找出那几天拍的照片，把每一段旅程完整地留下来。去过的城市和走过的路会画成足迹地图，每年还有一份旅行年度报告。',
+      en: 'Waystub turns your train, flight and bus tickets into beautiful stubs, then uses the dates and cities on each ticket to gather the photos you took on that trip, so every journey is kept whole. The cities you visit and the routes you travel become a footprint map, with a year report for every year.',
+    },
+    highlights: {
+      zh: ['截图、发票、登机牌导入车票机票', '按日期找回旅途照片', '足迹地图与年度报告', '多种票根分享图'],
+      en: ['Import tickets from screenshots, invoices and boarding passes', 'Trip photos found by date', 'Footprint map and year report', 'Share cards in many ticket styles'],
+    },
+    icon: waystubIcon,
+    appStoreId: '6820545030',
+    website: 'https://apps.hiwik.cn/waystub/',
+    platforms: 'iPhone',
+    since: '2026-11',
+  },
   {
     slug: 'vitae',
     name: { zh: '平生 Vitae', en: 'Vitae' },
