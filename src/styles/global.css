@@ -19,7 +19,7 @@
   --seal-soft: oklch(57% 0.22 27 / 0.1);
 
   /* 各 App 的主题色 */
-  --app-vitae: oklch(62% 0.17 252);
+  --app-vitae: oklch(62% 0.16 280);
   --app-cutepet: oklch(70% 0.11 15);
   --app-moonlog: oklch(74% 0.15 70);
   --app-waystub: oklch(45% 0.11 255);
@@ -64,7 +64,7 @@
     --rule-strong: oklch(36% 0.012 70);
     --seal: oklch(68% 0.2 27);
     --seal-soft: oklch(68% 0.2 27 / 0.14);
-    --app-vitae: oklch(72% 0.14 250);
+    --app-vitae: oklch(76% 0.12 280);
     --app-cutepet: oklch(78% 0.1 15);
     --app-moonlog: oklch(80% 0.14 75);
   --app-waystub: oklch(76% 0.09 252);
@@ -87,7 +87,7 @@
   --rule-strong: oklch(36% 0.012 70);
   --seal: oklch(68% 0.2 27);
   --seal-soft: oklch(68% 0.2 27 / 0.14);
-  --app-vitae: oklch(72% 0.14 250);
+  --app-vitae: oklch(76% 0.12 280);
   --app-cutepet: oklch(78% 0.1 15);
   --app-moonlog: oklch(80% 0.14 75);
   --proj-jot: oklch(76% 0.14 52);

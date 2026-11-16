@@ -15,7 +15,7 @@ const detailUrl = app.website ?? href(lang, `/apps/${app.slug}/`);
 ---
 
 <div class="reveal-box" data-reveal style={`--d:${index}`}>
-<article class="app-card" data-spot style={`--accent:var(--app-${app.slug})`}>
+<article class="app-card" data-app={app.slug} data-spot style={`--accent:var(--app-${app.slug})`}>
   <a href={detailUrl} class="cover" aria-label={app.name[lang]}>
     <span class="halo" aria-hidden="true"></span>
     <AppIcon app={app} size={96} morph />
@@ -75,6 +75,13 @@ const detailUrl = app.website ?? href(lang, `/apps/${app.slug}/`);
       linear-gradient(180deg, color-mix(in oklch, var(--accent) 8%, var(--paper-raised)), color-mix(in oklch, var(--accent) 20%, var(--paper-raised)));
     border-bottom: 1px solid color-mix(in oklch, var(--accent) 18%, var(--rule));
     isolation: isolate;
+  }
+
+  .app-card[data-app='vitae'] .cover {
+    background:
+      radial-gradient(60% 80% at 50% 100%, color-mix(in srgb, var(--accent) 24%, transparent), transparent 75%),
+      linear-gradient(180deg, color-mix(in srgb, var(--accent) 10%, var(--paper-raised)), color-mix(in srgb, var(--accent) 22%, var(--paper-raised)));
+    border-bottom-color: color-mix(in srgb, var(--accent) 18%, var(--rule));
   }
 
   /* 图标后面缓慢旋转的光晕 */
