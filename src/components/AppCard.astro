@@ -11,24 +11,25 @@ interface Props {
 
 const { lang, app, index } = Astro.props;
 const s = t(lang);
+const detailUrl = app.website ?? href(lang, `/apps/${app.slug}/`);
 ---
 
 <div class="reveal-box" data-reveal style={`--d:${index}`}>
 <article class="app-card" data-spot style={`--accent:var(--app-${app.slug})`}>
-  <a href={href(lang, `/apps/${app.slug}/`)} class="cover" aria-label={app.name[lang]}>
+  <a href={detailUrl} class="cover" aria-label={app.name[lang]}>
     <span class="halo" aria-hidden="true"></span>
     <AppIcon app={app} size={96} morph />
   </a>
   <div class="body">
     <div class="meta mono">{app.platforms}</div>
-    <h3><a href={href(lang, `/apps/${app.slug}/`)}>{app.name[lang]}</a></h3>
+    <h3><a href={detailUrl}>{app.name[lang]}</a></h3>
     <p class="tagline">{app.tagline[lang]}</p>
     <ul class="points">
       {app.highlights[lang].slice(0, 3).map((h) => <li>{h}</li>)}
     </ul>
   </div>
   <div class="actions">
-    <a href={href(lang, `/apps/${app.slug}/`)} class="more">{s.learnMore} <span aria-hidden="true">→</span></a>
+    <a href={detailUrl} class="more">{s.learnMore} <span aria-hidden="true">→</span></a>
     <a href={appStoreUrl(app)} class="store" target="_blank" rel="noopener">{s.appStore} ↗</a>
   </div>
 </article>
