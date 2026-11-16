@@ -11,7 +11,8 @@ interface Props {
 
 const { lang, app, index } = Astro.props;
 const s = t(lang);
-const detailUrl = app.website ?? href(lang, `/apps/${app.slug}/`);
+const detailUrl = href(lang, `/apps/${app.slug}/`);
+const websiteUrl = app.website ?? detailUrl;
 ---
 
 <div class="reveal-box" data-reveal style={`--d:${index}`}>
@@ -29,7 +30,7 @@ const detailUrl = app.website ?? href(lang, `/apps/${app.slug}/`);
     </ul>
   </div>
   <div class="actions">
-    <a href={detailUrl} class="more">{s.learnMore} <span aria-hidden="true">→</span></a>
+    <a href={websiteUrl} class="more">{s.learnMore} <span aria-hidden="true">→</span></a>
     <a href={appStoreUrl(app)} class="store" target="_blank" rel="noopener">{s.appStore} ↗</a>
   </div>
 </article>
